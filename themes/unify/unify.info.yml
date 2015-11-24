@@ -2,7 +2,7 @@ name: Unify Custom Theme
 type: theme
 base theme: classy
 description: 'A Custom Theme.'
-#package: Core
+package: Core
 # version: VERSION
 # core: 8.x
 stylesheets-remove:
@@ -37,7 +37,5 @@ regions:
 
 
 # Information added by Drupal.org packaging script on 2015-08-03
-version: '8.0.0-beta14'
 core: '8.x'
 project: 'drupal'
-datestamp: 1438593763
