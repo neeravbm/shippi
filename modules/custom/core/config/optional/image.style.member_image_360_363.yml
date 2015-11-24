@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies: {  }
+name: member_image_360_363
+label: member_image_360_363
+effects:
+  26a30d67-1145-4113-bd00-dce79c394aaf:
+    uuid: 26a30d67-1145-4113-bd00-dce79c394aaf
+    id: image_resize
+    weight: 1
+    data:
+      width: 360
+      height: 363

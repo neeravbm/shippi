@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+id: usefull-links
+label: 'Usefull Links'
+description: 'Unify Footer Usefull Links'
+locked: false

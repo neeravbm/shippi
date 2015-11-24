@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.team_members.field_member_description
+    - field.field.node.team_members.field_member_designation
+    - field.field.node.team_members.field_member_image
+    - field.field.node.team_members.field_member_name
+    - field.field.node.team_members.field_member_social_links
+    - field.field.node.team_members.field_team_member_type
+    - node.type.team_members
+  module:
+    - user
+id: node.team_members.teaser
+targetEntityType: node
+bundle: team_members
+mode: teaser
+content:
+  links:
+    weight: 100
+hidden:
+  field_member_description: true
+  field_member_designation: true
+  field_member_image: true
+  field_member_name: true
+  field_member_social_links: true
+  field_team_member_type: true
+  langcode: true

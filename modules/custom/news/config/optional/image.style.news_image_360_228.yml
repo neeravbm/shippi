@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies: {  }
+name: news_image_360_228
+label: news_image_360_228
+effects:
+  2ac34e02-c687-41b0-a100-0f17a47a4ca7:
+    uuid: 2ac34e02-c687-41b0-a100-0f17a47a4ca7
+    id: image_resize
+    weight: 1
+    data:
+      width: 360
+      height: 228

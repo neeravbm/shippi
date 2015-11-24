@@ -1,0 +1,16 @@
+name: Blog
+description: 'Provide Blog content type and related configuration. Unify Blog'
+type: module
+core: 8.x
+dependencies:
+  - comment
+  - entity_reference
+  - image
+  - menu_ui
+  - node
+  - path
+  - text
+  - user
+  - views
+  - youtube
+features: true

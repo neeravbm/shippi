@@ -1,0 +1,14 @@
+name: Testimonial
+description: 'Provide Testimonial content type and related configuration. Testimonials are added under this.'
+type: module
+core: 8.x
+dependencies:
+  - image
+  - menu_ui
+  - node
+  - path
+  - system
+  - text
+  - user
+  - views
+features: true

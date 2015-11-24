@@ -1,0 +1,13 @@
+name: Core
+description: 'Provide core components required by other features.'
+type: module
+core: 8.x
+dependencies:
+  - block_content
+  - entity_reference
+  - image
+  - node
+  - system
+  - taxonomy
+  - text
+features: true

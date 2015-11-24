@@ -1,0 +1,10 @@
+name: Site
+description: 'Provide site components.'
+type: module
+core: 8.x
+dependencies:
+  - ckeditor
+  - editor
+  - path
+  - text
+features: true

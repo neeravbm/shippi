@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - image
+    - node
+id: node.field_thumbnail
+field_name: field_thumbnail
+entity_type: node
+type: image
+settings:
+  uri_scheme: public
+  default_image:
+    uuid: a5e353a8-e518-40b0-8600-b5244e5f298d
+    alt: ''
+    title: ''
+    width: 973
+    height: 615
+  target_type: file
+  display_field: false
+  display_default: false
+  target_bundle: null
+module: image
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false

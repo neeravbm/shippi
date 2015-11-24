@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies: {  }
+name: testimonial_person_image_80_80
+label: testimonial_person_image_80_80
+effects:
+  06c064ab-2559-4b4b-924a-74df4780ace5:
+    uuid: 06c064ab-2559-4b4b-924a-74df4780ace5
+    id: image_resize
+    weight: 1
+    data:
+      width: 80
+      height: 80

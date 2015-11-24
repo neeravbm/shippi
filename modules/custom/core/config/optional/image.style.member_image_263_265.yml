@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies: {  }
+name: member_image_263_265
+label: member_image_263_265
+effects:
+  48e765f0-180c-4183-8200-f0ea0a8fcf27:
+    uuid: 48e765f0-180c-4183-8200-f0ea0a8fcf27
+    id: image_resize
+    weight: 1
+    data:
+      width: 263
+      height: 265

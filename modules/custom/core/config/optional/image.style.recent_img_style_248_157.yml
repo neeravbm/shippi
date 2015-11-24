@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies: {  }
+name: recent_img_style_248_157
+label: recent_img_style_248_157
+effects:
+  df8275d0-f175-432d-9700-f50080325749:
+    uuid: df8275d0-f175-432d-9700-f50080325749
+    id: image_resize
+    weight: 1
+    data:
+      width: 249
+      height: 157

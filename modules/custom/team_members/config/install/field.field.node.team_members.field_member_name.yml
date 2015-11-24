@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_member_name
+    - node.type.team_members
+  module:
+    - text
+id: node.team_members.field_member_name
+field_name: field_member_name
+entity_type: node
+bundle: team_members
+label: member_name
+description: 'Name of the team member'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text

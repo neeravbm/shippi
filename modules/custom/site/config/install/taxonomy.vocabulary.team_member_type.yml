@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'Team Member Type'
+vid: team_member_type
+description: 'The type of team member'
+hierarchy: 0
+weight: 0

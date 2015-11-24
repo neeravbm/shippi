@@ -1,0 +1,91 @@
+<body>
+<div class="wrapper">
+    <div class="header">
+        <div class="container">
+            {% if logo %}
+                <a href="{{ front_page }}" title="{{ 'Home'|t }}" rel="home" id="logo" class="logo">
+                    <img src="{{ logo }}" alt="{{ 'Home'|t }}" />
+                </a>
+            {% endif %}
+
+            <div class="topbar">
+                {{ page.secondary_menu }}
+            </div>
+
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="fa fa-bars"></span>
+            </button>
+
+        </div>
+
+        <div class="navbar-collapse mega-menu navbar-responsive-collapse collapse">
+            <div class="container">
+                {{ page.primary_menu }}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container content">
+        {#Status messages and Help Block#}
+        {{ page.help }}
+        <div class="row margin-bottom-30">
+            <div class="col-md-9 mb-margin-bottom-30">
+                <div class="headline"><h2>Contact Form</h2></div>
+                <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas feugiat. Et harum quidem rerum facilis est et expedita distinctio lorem ipsum dolor sit amet, consectetur adipiscing elit landitiis.</p><br>
+                {{ page.content }}
+            </div><!--/col-md-9-->
+            <div class="col-md-3">
+                {{ page.sidebar_right }}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="footer-v1">
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-3 md-margin-bottom-40">
+                    {{ page.footer_first }}
+                </div>
+
+                <div class="col-md-3 md-margin-bottom-40">
+                    {{ page.footer_second }}
+                </div>
+
+                <div class="col-md-3 md-margin-bottom-40">
+                    {{ page.footer_third }}
+                </div>
+
+                <div class="col-md-3 map-img md-margin-bottom-40">
+                    {{ page.footer_fourth }}
+                </div>
+
+            </div>
+        </div>
+    </div><!--/footer-->
+
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    {{ page.footer_bottom_first }}
+                </div>
+
+                <!-- Social Links -->
+                <div class="col-md-6">
+                    {{ page.footer_bottom_second }}
+                </div>
+                <!-- End Social Links -->
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</body>

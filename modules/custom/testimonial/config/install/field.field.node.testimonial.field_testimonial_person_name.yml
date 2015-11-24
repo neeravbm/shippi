@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_testimonial_person_name
+    - node.type.testimonial
+  module:
+    - text
+id: node.testimonial.field_testimonial_person_name
+field_name: field_testimonial_person_name
+entity_type: node
+bundle: testimonial
+label: testimonial_person_name
+description: 'The name of the customer who gives the testimonial'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text

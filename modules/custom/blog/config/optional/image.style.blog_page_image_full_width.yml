@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies: {  }
+name: blog_page_image_full_width
+label: blog_page_image_full_width
+effects:
+  7613a498-01f4-4a97-9000-f3ef40fdf8e1:
+    uuid: 7613a498-01f4-4a97-9000-f3ef40fdf8e1
+    id: image_resize
+    weight: 1
+    data:
+      width: 1140
+      height: 416

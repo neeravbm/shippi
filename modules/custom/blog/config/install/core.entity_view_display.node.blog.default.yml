@@ -1,0 +1,70 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.blog.comment
+    - field.field.node.blog.field_blog_content
+    - field.field.node.blog.field_blog_image
+    - field.field.node.blog.field_blog_tags
+    - field.field.node.blog.field_blog_video
+    - node.type.blog
+  module:
+    - comment
+    - image
+    - text
+    - user
+    - youtube
+id: node.blog.default
+targetEntityType: node
+bundle: blog
+mode: default
+content:
+  comment:
+    weight: 5
+    label: above
+    settings:
+      pager_id: 0
+    third_party_settings: {  }
+    type: comment_default
+  field_blog_content:
+    weight: 3
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+  field_blog_image:
+    weight: 1
+    label: hidden
+    settings:
+      image_style: blog_page_image_full_width
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+  field_blog_tags:
+    weight: 4
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+  field_blog_video:
+    weight: 2
+    label: hidden
+    settings:
+      youtube_size: 480x360
+      youtube_width: ''
+      youtube_height: ''
+      youtube_autoplay: false
+      youtube_loop: false
+      youtube_showinfo: false
+      youtube_controls: false
+      youtube_autohide: false
+      youtube_iv_load_policy: false
+    third_party_settings: {  }
+    type: youtube_video
+  links:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true

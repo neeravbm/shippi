@@ -1,0 +1,43 @@
+global-styling:
+  css:
+    component:
+      css/components/header.css: {}
+      css/components/footer.css: {}
+      css/components/comments.css: {}
+
+    theme:
+      css/vendor/bootstrap/css/bootstrap.min.css: {}
+      css/vendor/parallax-slider/css/parallax-slider.css: {}
+      css/vendor/fa/css/font-awesome.css: {}
+      css/vendor/line-icons/line-icons.css: {}
+      css/style.css: {}
+      css/custom.css: {}
+      css/app.css: {}
+      css/login.css: {}
+      css/page_404_error.css: {}
+      css/blocks.css: {}
+      css/animate.css: {}
+
+  js:
+    js/vendor/jquery/jquery.min.js: {}
+    js/vendor/bootstrap/bootstrap.min.js: {}
+    js/vendor/jquery/jquery-noconflict.js: {}
+    js/vendor/other/waypoints.min.js: {}
+    js/vendor/jquery/jquery.counterup.min.js: {}
+    js/vendor/jquery/jquery.parallax.js: {}
+    js/vendor/jquery/jquery-appear.js: {}
+    js/vendor/other/smoothScroll.js: {}
+    js/vendor/other/back-to-top.js: {}
+    js/app.js: {}
+
+  dependencies:
+    - core/jquery
+
+maintenance_page:
+  version: VERSION
+  css:
+    theme:
+      css/maintenance-page.css: {}
+  dependencies:
+    - system/maintenance
+    - unify/global-styling

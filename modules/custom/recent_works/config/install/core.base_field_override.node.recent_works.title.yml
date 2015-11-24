@@ -1,0 +1,19 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.recent_works
+id: node.recent_works.title
+field_name: title
+entity_type: node
+bundle: recent_works
+label: 'Product Title'
+description: ''
+required: true
+translatable: true
+default_value:
+  -
+    value: ''
+default_value_callback: ''
+settings: {  }
+field_type: string

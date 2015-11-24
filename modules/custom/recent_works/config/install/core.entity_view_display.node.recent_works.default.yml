@@ -1,0 +1,36 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.recent_works.body
+    - field.field.node.recent_works.field_thumbnail
+    - node.type.recent_works
+  module:
+    - image
+    - text
+    - user
+id: node.recent_works.default
+targetEntityType: node
+bundle: recent_works
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 3
+    settings: {  }
+    third_party_settings: {  }
+  field_thumbnail:
+    weight: 1
+    label: hidden
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+  links:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true

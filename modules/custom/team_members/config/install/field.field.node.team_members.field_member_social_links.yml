@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_member_social_links
+    - node.type.team_members
+  module:
+    - text
+id: node.team_members.field_member_social_links
+field_name: field_member_social_links
+entity_type: node
+bundle: team_members
+label: member_social_links
+description: 'Social links to contact the member.'
+required: false
+translatable: false
+default_value:
+  -
+    value: "<li><a href=\"#\"><i class=\"rounded-x fa fa-twitter\"></i></a></li>\r\n<li><a href=\"#\"><i class=\"rounded-x fa fa-facebook\"></i></a></li>\r\n<li><a href=\"#\"><i class=\"rounded-x fa fa-google-plus\"></i></a></li>"
+    format: full_html
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -1,0 +1,38 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.recent_works.body
+    - field.field.node.recent_works.field_thumbnail
+    - node.type.recent_works
+  module:
+    - image
+    - text
+    - user
+id: node.recent_works.teaser
+targetEntityType: node
+bundle: recent_works
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 3
+    settings:
+      trim_length: 30
+    third_party_settings: {  }
+  field_thumbnail:
+    type: image
+    weight: 1
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+  links:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true
