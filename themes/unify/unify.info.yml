@@ -16,8 +16,7 @@ regions:
   secondary_menu: 'Secondary menu'
   help: Help
   search: Search
-  page_top: 'Page top'
-  page_bottom: 'Page bottom'
+  page_title: 'Page Title'
   highlighted: Highlighted
   featured_top: 'Featured top'
   breadcrumb: Breadcrumb

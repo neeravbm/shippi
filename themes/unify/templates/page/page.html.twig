@@ -38,9 +38,7 @@
     <div class="breadcrumbs">
         <div class="container">
             <div class="pull-left">
-                {% if title %}
-                    <h1>{{ title }}</h1>
-                {% endif %}
+                {{ page.page_title }}
             </div>
             <ul class="pull-right">
                 {{ page.breadcrumb }}
