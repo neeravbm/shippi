@@ -41,14 +41,6 @@ set classes = [
 %}
 <div class="container">
     <div{{ attributes.addClass(classes) }}>
-        <div class="headline-center margin-bottom-60">
-            {{ title_prefix }}
-            {% if label %}
-                <h2{{ title_attributes }}>{{ label }}</h2>
-                <p>Phasellus vitae ipsum ex. Etiam eu vestibulum ante. <br>
-                    Lorem ipsum <strong>dolor</strong> sit amet, consectetur adipiscing elit. Morbi libero libero, imperdiet fringilla </p>
-            {% endif %}
-        </div>
         {{ title_suffix }}
         {% block content %}
             {{ content }}
