@@ -1,142 +1,88 @@
-{#
-/**
- * @file
- * Bartik's theme implementation to display a single page.
- *
- * The doctype, html, head and body tags are not in this template. Instead they
- * can be found in the html.html.twig template normally located in the
- * core/modules/system directory.
- *
- * Available variables:
- *
- * General utility variables:
- * - base_path: The base URL path of the Drupal installation. Will usually be
- *   "/" unless you have installed Drupal in a sub-directory.
- * - is_front: A flag indicating if the current page is the front page.
- * - logged_in: A flag indicating if the user is registered and signed in.
- * - is_admin: A flag indicating if the user has permission to access
- *   administration pages.
- *
- * Site identity:
- * - front_page: The URL of the front page. Use this instead of base_path when
- *   linking to the front page. This includes the language domain or prefix.
- * - logo: The url of the logo image, as defined in theme settings.
- * - site_name: The name of the site. This is empty when displaying the site
- *   name has been disabled in the theme settings.
- * - site_slogan: The slogan of the site. This is empty when displaying the site
- *   slogan has been disabled in theme settings.
+{# Unify template for displaying frontpage #}
 
- * Page content (in order of occurrence in the default page.html.twig):
- * - node: Fully loaded node, if there is an automatically-loaded node
- *   associated with the page and the node ID is the second argument in the
- *   page's path (e.g. node/12345 and node/12345/revisions, but not
- *   comment/reply/12345).
- *
- * Regions:
- * - page.header: Items for the header region.
- * - page.highlighted: Items for the highlighted region.
- * - page.primary_menu: Items for the primary menu region.
- * - page.secondary_menu: Items for the secondary menu region.
- * - page.featured_top: Items for the featured top region.
- * - page.content: The main content of the current page.
- * - page.sidebar_first: Items for the first sidebar.
- * - page.sidebar_second: Items for the second sidebar.
- * - page.featured_bottom_first: Items for the first featured bottom region.
- * - page.featured_bottom_second: Items for the second featured bottom region.
- * - page.featured_bottom_third: Items for the third featured bottom region.
- * - page.footer_first: Items for the first footer column.
- * - page.footer_second: Items for the second footer column.
- * - page.footer_third: Items for the third footer column.
- * - page.footer_fourth: Items for the fourth footer column.
- * - page.footer_fifth: Items for the fifth footer column.
- * - page.breadcrumb: Items for the breadcrumb region.
- *
- * @see template_preprocess_page()
- * @see bartik_preprocess_page()
- * @see html.html.twig
- */
-#}
+
 <body>
-<div class="wrapper">
 
-    {% include directory ~ '/partials/header.html.twig' %}
+    <div class="wrapper">
 
-    {#Temporary Placeholder Block for Main Slider on Frontpage#}
-    <div class="slider-inner">
-        <div id="da-slider" class="da-slider">
-            <div class="da-slide da-slide-current">
-                <h2><i>CLEAN &amp; FRESH</i> <br> <i>FULLY RESPONSIVE</i> <br> <i>DESIGN</i></h2>
-                <p><i>Lorem ipsum dolor amet</i> <br> <i>tempor incididunt ut</i> <br> <i>veniam omnis </i></p>
-                {#<div class="da-img"><img class="img-responsive" src="http://unify.local/themes/unify/css/img/1.png" alt=""></div>#}
-            </div>
-            <div class="da-arrows">
-                <span class="da-arrows-prev"></span>
-                <span class="da-arrows-next"></span>
-            </div>
-            <nav class="da-dots"><span class="da-dots-current"></span><span></span><span></span></nav></div>
-    </div>
-    {#Main Slider Placeholder Ends#}
+        {% include directory ~ '/partials/header.html.twig' %}
 
-    {#Purchase Block in Highlight Region Starts#}
-    {{ page.highlighted }}
-    {#Purchase Block Ends#}
-
-    {#Main Container For the Services,Recent Works and Welcome Block#}
-    <div class="container content-sm">
-        {#Status messages and Help Block#}
-        {{ page.help }}
-
-        {#Services Block in Featured Top Region#}
-
-        <div class="row margin-bottom-30">
-            {{ page.featured_top }}
+        {#Temporary Placeholder Block for Main Slider on Frontpage#}
+        <div class="slider-inner">
+            <div id="da-slider" class="da-slider">
+                <div class="da-slide da-slide-current">
+                    <h2><i>CLEAN &amp; FRESH</i> <br> <i>FULLY RESPONSIVE</i> <br> <i>DESIGN</i></h2>
+                    <p><i>Lorem ipsum dolor amet</i> <br> <i>tempor incididunt ut</i> <br> <i>veniam omnis </i></p>
+                    {#<div class="da-img"><img class="img-responsive" src="http://unify.local/themes/unify/css/img/1.png" alt=""></div>#}
+                </div>
+                <div class="da-arrows">
+                    <span class="da-arrows-prev"></span>
+                    <span class="da-arrows-next"></span>
+                </div>
+                <nav class="da-dots"><span class="da-dots-current"></span><span></span><span></span></nav></div>
         </div>
+        {#Main Slider Placeholder Ends#}
 
-        {#Recent Products View Block in Featured First Region#}
-        {{ page.featured_first }}
+        {#Purchase Block in Highlight Region Starts#}
+        {{ page.highlighted }}
+        {#Purchase Block Ends#}
 
-        {#Welcome Block in Content Region#}
-        <div class="row margin-bottom-30">
+        {#Main Container For the Services,Recent Works and Welcome Block#}
+        <div class="container content-sm">
+            {#Status messages and Help Block#}
+            {{ page.help }}
 
-            <div class="col-md-8 md-margin-bottom-40">
-                {{ page.content }}
+            {#Services Block in Featured Top Region#}
+
+            <div class="row margin-bottom-30">
+                {{ page.featured_top }}
             </div>
 
-            {#Placeholder for Latest Shots Slideshow#}
-            <div class="col-md-4">
-                <div class="headline"><h2>Latest Shots</h2></div>
-                <div id="myCarousel" class="carousel slide carousel-v1">
-                    <div class="carousel-inner">
-                        <div class="item">
-                            <img src="/sites/default/files/inline-images/project_thumbnail_0.jpg" alt="">
-                            <div class="carousel-caption">
-                                <p>Facilisis odio, dapibus ac justo acilisis gestinas.</p>
+            {#Recent Products View Block in Featured First Region#}
+            {{ page.featured_first }}
+
+            {#Welcome Block in Content Region#}
+            <div class="row margin-bottom-30">
+
+                <div class="col-md-8 md-margin-bottom-40">
+                    {{ page.content }}
+                </div>
+
+                {#Placeholder for Latest Shots Slideshow#}
+                <div class="col-md-4">
+                    <div class="headline"><h2>Latest Shots</h2></div>
+                    <div id="myCarousel" class="carousel slide carousel-v1">
+                        <div class="carousel-inner">
+                            <div class="item">
+                                <img src="/sites/default/files/inline-images/project_thumbnail_0.jpg" alt="">
+                                <div class="carousel-caption">
+                                    <p>Facilisis odio, dapibus ac justo acilisis gestinas.</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="carousel-arrow">
-                        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                            <i class="fa fa-angle-left"></i>
-                        </a>
-                        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                            <i class="fa fa-angle-right"></i>
-                        </a>
+                        <div class="carousel-arrow">
+                            <a class="left carousel-control" href="/" data-slide="prev">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a class="right carousel-control" href="/" data-slide="next">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
+                {#End of Latest Shots Placeholder#}
+
             </div>
-            {#End of Latest Shots Placeholder#}
+
+            {#Placeholder for Our Clients Slideshow#}
+            <div class="headline"><h2>Our Clients</h2></div>
+            {#End of Our Clients Placeholder#}
 
         </div>
-
-        {#Placeholder for Our Clients Slideshow#}
-        <div class="headline"><h2>Our Clients</h2></div>
-        {#End of Our Clients Placeholder#}
-
+        {#End the Main Container#}
     </div>
-    {#End the Main Container#}
-</div>
 
-{% include directory ~ '/partials/footer.html.twig' %}
+    {% include directory ~ '/partials/footer.html.twig' %}
 
 </body>

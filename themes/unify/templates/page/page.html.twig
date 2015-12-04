@@ -1,31 +1,26 @@
+{# Unify template for displaying a page #}
+
 <body>
-<div class="wrapper">
 
-    {% include directory ~ '/partials/header.html.twig' %}
+    <div class="wrapper">
 
-    <div class="breadcrumbs">
-        <div class="container">
-            <div class="pull-left">
-                {{ page.page_title }}
-            </div>
-            <ul class="pull-right">
-                {{ page.breadcrumb }}
-            </ul>
+        {% include directory ~ '/partials/header.html.twig' %}
+
+        {% include directory ~ '/partials/breadcrumbs.html.twig' %}
+
+        <div class="container content">
+
+            {{ page.help }}
+            {{ title_prefix }}
+            {{ page.content }}
+            {{ title_suffix }}
+
         </div>
-    </div>
-
-    <div class="container content">
-        {{ page.help }}
-        {{ title_prefix }}
-        {{ page.content }}
-        {{ title_suffix }}
 
     </div>
 
-</div>
 
-
-{% include directory ~ '/partials/footer.html.twig' %}
+    {% include directory ~ '/partials/footer.html.twig' %}
 
 
 </body>

@@ -1,18 +1,21 @@
+{# Unify template for displaying custom page /about_us #}
+
 <body>
-<div class="wrapper">
 
-    {% include directory ~ '/partials/header.html.twig' %}
+    <div class="wrapper">
 
-
-    {{ page.help }}
-    {{ title_prefix }}
-    {{ page.content }}
-    {{ title_suffix }}
-
-</div>
+        {% include directory ~ '/partials/header.html.twig' %}
 
 
-{% include directory ~ '/partials/footer.html.twig' %}
+        {{ page.help }}
+        {{ title_prefix }}
+        {{ page.content }}
+        {{ title_suffix }}
+
+    </div>
+
+
+    {% include directory ~ '/partials/footer.html.twig' %}
 
 </body>
 
