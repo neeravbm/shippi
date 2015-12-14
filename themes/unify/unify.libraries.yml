@@ -10,6 +10,7 @@ global-styling:
       css/vendor/parallax-slider/css/parallax-slider.css: {}
       css/vendor/fa/css/font-awesome.css: {}
       css/vendor/line-icons/line-icons.css: {}
+      css/blog_timeline.css: {}
       css/style.css: {}
       css/custom.css: {}
       css/app.css: {}
