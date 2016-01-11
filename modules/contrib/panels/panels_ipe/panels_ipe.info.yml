@@ -1,12 +1,11 @@
+name: Panels IPE
 type: module
-name: Panels Test
-description: 'Required for Panels simpletests only.'
+description: Panels In-place editor.
 # core: 8.x
+package: Panels
 dependencies:
-  - page_manager
   - panels
-  - layout_plugin
-
+  - page_manager
 # Information added by Drupal.org packaging script on 2015-12-16
 version: '8.x-3.0-alpha20'
 core: '8.x'
