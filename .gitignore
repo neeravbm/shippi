@@ -35,5 +35,4 @@ sites/simpletest
 # Ignore SimpleTest multi-site environment.
 # simpletest
 
-# Ignore The IDE Files
-.idea/
+.idea
