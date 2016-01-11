@@ -8,11 +8,10 @@
 namespace Drupal\ds\Form;
 
 use Drupal\Core\Block\BlockPluginInterface;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\ds\Form\FieldFormBase;
-use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 
 /**
  * Configure block fields.
@@ -55,6 +54,13 @@ class BlockFieldForm extends FieldFormBase implements ContainerInjectionInterfac
       '#default_value' => isset($field['properties']['block']) ? $field['properties']['block'] : '',
     );
 
+    $form['use_block_title'] = array(
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use block title as the field label'),
+      '#default_value' => isset($field['properties']['use_block_title']) ? $field['properties']['use_block_title'] : FALSE,
+      '#weight' => 90,
+    );
+
     return $form;
   }
 
@@ -70,6 +76,9 @@ class BlockFieldForm extends FieldFormBase implements ContainerInjectionInterfac
     if (isset($field['properties']) && ($field['properties']['block'] == $properties['block'])) {
       $properties = $field['properties'];
     }
+
+    // Save title checkbox
+    $properties['use_block_title'] = $form_state->getValue('use_block_title');
 
     return $properties;
   }

@@ -8,7 +8,7 @@
 namespace Drupal\ds\Form;
 
 use Drupal\Core\Config\ConfigFactory;
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -47,9 +47,9 @@ class SettingsForm extends ConfigFormBase {
   /**
    * The entity manager.
    *
-   * @var \Drupal\Core\Entity\EntityManagerInterface
+   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
    */
-  protected $entityManager;
+  protected $entityFieldManager;
 
   /**
    * Constructs a \Drupal\ds\Form\SettingsForm object.
@@ -62,16 +62,16 @@ class SettingsForm extends ConfigFormBase {
    *   The theme registry used.
    * @param \Drupal\Core\Routing\RouteBuilderInterface $route_builder
    *   The route builder.
-   * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
-   *   The entity manager.
+   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
+   *   The entity field manager.
    */
-  public function __construct(ConfigFactory $config_factory, ModuleHandlerInterface $module_handler, Registry $theme_registry, RouteBuilderInterface $route_builder, EntityManagerInterface $entity_manager) {
+  public function __construct(ConfigFactory $config_factory, ModuleHandlerInterface $module_handler, Registry $theme_registry, RouteBuilderInterface $route_builder, EntityFieldManagerInterface $entity_field_manager) {
     parent::__construct($config_factory);
 
     $this->moduleHandler = $module_handler;
     $this->themeRegistry = $theme_registry;
     $this->routeBuilder = $route_builder;
-    $this->entityManager = $entity_manager;
+    $this->entityFieldManager = $entity_field_manager;
   }
 
   /**
@@ -83,7 +83,7 @@ class SettingsForm extends ConfigFormBase {
       $container->get('module_handler'),
       $container->get('theme.registry'),
       $container->get('router.builder'),
-      $container->get('entity.manager')
+      $container->get('entity_field.manager')
     );
   }
 
@@ -124,12 +124,22 @@ class SettingsForm extends ConfigFormBase {
 
     $theme_functions = Ds::getFieldLayoutOptions();
     $url = new Url('ds.classes');
+    $description = t('<br/>Default will output the field as defined in Drupal Core.<br/>' .
+      'Reset will strip all HTML.<br/>' .
+      'Minimal adds a simple wrapper around the field.<br/>' .
+      'There is also an Expert Field Template that gives full control over the HTML, but can only be set per field.<br/><br/>' .
+      'You can override this setting per field on the "Manage display" screens or when creating fields on the instance level.<br/><br/>' .
+      '<strong>Template suggestions</strong><br/>' .
+      'You can create .html.twig files as well for these field theme functions, e.g. field--reset.html.twig, field--minimal.html.twig<br/><br/>' .
+      '<label>CSS classes</label>You can add custom CSS classes on the <a href=":url">classes form</a>. These classes can be added to fields using the Default Field Template.<br/><br/>' .
+      '<label>Advanced</label>You can create your own custom field templates plugin. See Drupal\ds_test\Plugin\DsFieldTemplate for an example.', array(':url' => $url->toString()));
+
     $form['fs1']['ft-default'] = array(
       '#type' => 'select',
       '#title' => t('Default Field Template'),
       '#options' => $theme_functions,
       '#default_value' => $config->get('ft-default'),
-      '#description' => t('Default will output the field as defined in Drupal Core.<br />Reset will strip all HTML.<br />Minimal adds a simple wrapper around the field.<br/>There is also an Expert Field Template that gives full control over the HTML, but can only be set per field.<br /><br />You can override this setting per field on the "Manage display" screens or when creating fields on the instance level.<br /><br /><strong>Template suggestions</strong><br />You can create .html.twig files as well for these field theme functions, e.g. field--reset.html.twig, field--minimal.html.twig<br /><br /><label>CSS classes</label>You can add custom CSS classes on the <a href=":url">classes form</a>. These classes can be added to fields using the Default Field Template.<br /><br /><label>Advanced</label>You can create your own custom field templates which need to be defined with hook_ds_field_theme_functions_info(). See ds.api.php for an example.', array(':url' => $url->toString())),
+      '#description' => $description,
       '#states' => array(
         'visible' => array(
           'input[name="fs1[field_template]"]' => array('checked' => TRUE),
@@ -166,7 +176,7 @@ class SettingsForm extends ConfigFormBase {
       ->set('ft-show-colon', $values['fs1']['ft-show-colon'])
       ->save();
 
-    $this->entityManager->clearCachedFieldDefinitions();
+    $this->entityFieldManager->clearCachedFieldDefinitions();
     $this->moduleHandler->resetImplementations();
     $this->themeRegistry->reset();
     $this->routeBuilder->setRebuildNeeded();

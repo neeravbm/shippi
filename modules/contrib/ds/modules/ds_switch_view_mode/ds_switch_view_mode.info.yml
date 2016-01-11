@@ -6,8 +6,8 @@ package: 'Display Suite'
 dependencies:
   - ds
 
-# Information added by Drupal.org packaging script on 2015-11-19
-version: '8.x-2.0'
+# Information added by Drupal.org packaging script on 2015-12-10
+version: '8.x-2.2'
 core: '8.x'
 project: 'ds'
-datestamp: 1447939492
+datestamp: 1449778144

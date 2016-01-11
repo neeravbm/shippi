@@ -29,7 +29,7 @@ class LayoutClassesTest extends FastTestBase {
       ->set('fields_extra_list', array('node|article|ds_extras_extra_test_field', 'node|article|ds_extras_second_field'))
       ->save();
 
-    \Drupal::entityManager()->clearCachedFieldDefinitions();
+    \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
   }
 
   /**
@@ -105,23 +105,21 @@ class LayoutClassesTest extends FastTestBase {
 
     // Assert regions.
     $this->assertRaw('group-header', 'Template found (region header)');
-    $this->assertRaw('group-header class_name_1', 'Class found (class_name_1)');
+    $this->assertRaw('class_name_1 group-header', 'Class found (class_name_1)');
     $this->assertRaw('group-left', 'Template found (region left)');
     $this->assertRaw('group-right', 'Template found (region right)');
     $this->assertRaw('group-footer', 'Template found (region footer)');
-    $this->assertRaw('group-footer class_name_2', 'Class found (class_name_2)');
+    $this->assertRaw('class_name_2 group-footer', 'Class found (class_name_2)');
 
     // Assert custom fields.
     $this->assertRaw('field--name-dynamic-token-fieldnode-test-field', t('Custom field found'));
     $this->assertRaw('field--name-dynamic-block-fieldnode-test-block-field', t('Custom block field found'));
 
-    // @todo title isn't set, cause we are dealing with the block itself not the instance
-    //$this->assertRaw('Recent content</h2>', t('Custom block field found'));
     $this->assertRaw('Submitted by', t('Submitted field found'));
     $this->assertText('This is an extra field made available through "Extra fields" functionality.');
 
     // Test HTML5 wrappers
-    $this->assertNoRaw('<header class="group-header', 'Header not found.');
+    $this->assertNoRaw('<header class="class_name_1 group-header', 'Header not found.');
     $this->assertNoRaw('<footer class="group-right', 'Footer not found.');
     $this->assertNoRaw('<article', 'Article not found.');
     $wrappers = array(
@@ -131,7 +129,7 @@ class LayoutClassesTest extends FastTestBase {
     );
     $this->dsConfigureUI($wrappers);
     $this->drupalGet('node/' . $node->id());
-    $this->assertRaw('<header class="group-header', 'Header found.');
+    $this->assertRaw('<header class="class_name_1 group-header', 'Header found.');
     $this->assertRaw('<footer class="group-right', 'Footer found.');
     $this->assertRaw('<article', 'Article found.');
 
