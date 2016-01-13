@@ -154,6 +154,9 @@
         }, this);
       }, this);
 
+      // Attach any Drupal behaviors.
+      Drupal.attachBehaviors(this.el);
+
       return this;
     },
 
@@ -295,6 +298,9 @@
 
       // Highlight the block.
       this.$('[data-block-id="' + id + '"]').addClass('ipe-highlight');
+
+      // Mark that we have unsaved changes in our App.
+      Drupal.panels_ipe.app.set('unsaved', true);
     },
 
     /**
@@ -319,6 +325,9 @@
 
       // Re-render ourselves.
       this.render();
+
+      // Mark that we have unsaved changes in our App.
+      Drupal.panels_ipe.app.set('unsaved', true);
     },
 
     /**
@@ -372,6 +381,9 @@
 
       // Highlight the block.
       this.$('[data-block-id="' + id + '"]').addClass('ipe-highlight');
+
+      // Mark that we have unsaved changes in our App.
+      Drupal.panels_ipe.app.set('unsaved', true);
     },
 
     /**

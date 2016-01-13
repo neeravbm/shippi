@@ -104,23 +104,9 @@
   position: relative;
   display: inline-block;
   vertical-align: bottom;
-  padding: 10px 5px 12px 5px;
   margin-bottom: -1px;
   background-color: white;
   border-top: 1px solid darkgray;
-  border-bottom: 1px solid darkgray;
-  transition: border-color .2s;
-}
-
-.ipe-tab:hover, .ipe-tab.active {
-  border-bottom: 3px solid rgb(67, 125, 33);
-  padding-bottom: 10px;
-}
-
-/* Indicate the cancel button. */
-[data-tab-id="cancel"]:hover, [data-tab-id="cancel"].active {
-  border-bottom: 3px solid #7D0000;
-  padding-bottom: 10px;
 }
 
 /* Indicate unsaved changes. */
@@ -146,24 +132,28 @@
 .ipe-tab a {
   color: black;
   height: 30px;
+  padding: 10px 5px 12px 5px;
   display: block;
   text-transform: uppercase;
   vertical-align: top;
   border: none;
   cursor: pointer;
   transition: .2s;
+  transition-property: color, border-color;
+  border-bottom: 1px solid darkgray;
 }
 
 .ipe-tab.active a, .ipe-tab a:hover {
+  padding-bottom: 10px;
   color: rgb(67, 125, 33);
   border: none;
+  border-bottom: 3px solid rgb(67, 125, 33);
 }
-
 
 /* Indicate the cancel button. */
 [data-tab-id="cancel"] a:hover, [data-tab-id="cancel"].active a {
   color: #7D0000;
-  border: none;
+  border-color: #7D0000;
 }
 
 .ipe-tab a::selection {
@@ -195,9 +185,15 @@
   display: inline-block;
 }
 
+.layout-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
 .ipe-current-layout {
   vertical-align: top;
   padding-right: 10px;
+  white-space: nowrap;
 }
 
 /* Remove <ul> list styling and make list scrollable. */
@@ -207,19 +203,19 @@
   margin: 0;
   padding: 0;
   white-space: nowrap;
-  overflow-x: auto;
 }
 
 /* Show layouts as clickable things. */
 .ipe-layout {
   cursor: pointer;
   display: inline-block;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
-.ipe-layout-title {
-  font-weight: bold;
-  text-transform: uppercase;
+/* Make sure image icons aren't t0o big */
+.ipe-layout-image {
+  width: 75px;
+  height: 112px;
 }
 
 /* Hide the tray for the edit and save tabs. */
@@ -325,7 +321,7 @@ div.ipe-actions-block {
 }
 
 /* Style the BlockPicker. */
-.ipe-block-picker-bottom {
+.ipe-category-picker-bottom {
   overflow-x: scroll;
   white-space: nowrap;
   margin: auto;
@@ -333,22 +329,22 @@ div.ipe-actions-block {
   min-height: 70px;
 }
 
-.ipe-block-picker-top {
+.ipe-category-picker-top {
   display: none;
 }
 
-.ipe-block-picker-top.active {
+.ipe-category-picker-top.active {
   display: block;
   padding: 0 20px 20px 20px;
   max-height: 100%;
   border-bottom: 1px solid darkgray;
 }
 
-#panels-ipe-tray .ipe-block-category {
+#panels-ipe-tray .ipe-category {
   margin-right: 5px;
 }
 
-.ipe-block-category {
+.ipe-category {
   position: relative;
   color: black;
   display: inline-block;
@@ -362,13 +358,13 @@ div.ipe-actions-block {
   cursor: pointer;
 }
 
-.ipe-block-category:hover,.ipe-block-category.active {
+.ipe-category:hover,.ipe-category.active {
   border-color: rgb(67, 125, 33);
   color: inherit;
 }
 
 /* Indicate an active block category with an arrow. */
-.ipe-block-category.active:after {
+.ipe-category.active:after {
   bottom: 100%;
   left: 50%;
   border: solid transparent;
@@ -379,14 +375,14 @@ div.ipe-actions-block {
   pointer-events: none;
 }
 
-.ipe-block-category.active:after {
+.ipe-category.active:after {
   border-color: transparent;
   border-bottom-color: rgb(67, 125, 33);
   border-width: 10px;
   margin-left: -10px;
 }
 
-.ipe-block-category-count {
+.ipe-category-count {
   color: white;
   background: black;
   border-radius: 50%;
@@ -439,9 +435,9 @@ div.ipe-actions-block {
   color: inherit;
 }
 
-/* Theme the block plugin form */
+/* Theme the category view. */
 
-.ipe-block-picker-top h4 {
+.ipe-category-picker-top h4 {
   font-size: 16px;
   text-transform: uppercase;
   border-bottom: 1px solid darkgray;
@@ -449,29 +445,31 @@ div.ipe-actions-block {
   margin: 0 0 10px 0;
 }
 
-.ipe-block-plugin-form {
+/* Theme the block plugin and layout forms. */
+
+.ipe-block-plugin-form,.ipe-layout-form  {
   text-align: left;
   margin: 0 auto;
   display: inline-block;
 }
 
-#panels-ipe-block-plugin-form-wrapper label {
+.ipe-form label {
   display: inline-block;
   text-transform: uppercase;
   margin-right: 5px;
 }
 
-#panels-ipe-block-plugin-form-wrapper summary {
+.ipe-form summary {
   text-transform: uppercase;
   background: transparent;
 }
 
-#panels-ipe-block-plugin-form-wrapper .ipe-icon-loading {
+.ipe-form .ipe-icon-loading {
   text-align: center;
   width: 100%;
 }
 
-#panels-ipe-block-plugin-form-wrapper input[type="submit"] {
+.ipe-form input[type="submit"] {
   text-transform: uppercase;
   margin: 0;
   background: white;
@@ -481,13 +479,13 @@ div.ipe-actions-block {
   transition: .2s;
 }
 
-#panels-ipe-block-plugin-form-wrapper input[type="submit"]:hover {
+.ipe-form input[type="submit"]:hover {
   border-color: rgb(67, 125, 33);
   color: black;
   background: white;
 }
 
-#panels-ipe-block-plugin-form-wrapper {
+.ipe-form {
   max-width: 650px;
   padding-right: 10px;
 }

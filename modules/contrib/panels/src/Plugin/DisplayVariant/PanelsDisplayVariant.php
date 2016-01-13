@@ -9,14 +9,19 @@ namespace Drupal\panels\Plugin\DisplayVariant;
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Component\Uuid\UuidInterface;
+use Drupal\Core\Block\BlockManager;
+use Drupal\Core\Condition\ConditionManager;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\Context\ContextHandlerInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Utility\Token;
+use Drupal\ctools\Plugin\BlockPluginCollection;
 use Drupal\ctools\Plugin\DisplayVariant\BlockDisplayVariant;
 use Drupal\layout_plugin\Layout;
+use Drupal\layout_plugin\Plugin\Layout\LayoutInterface;
 use Drupal\layout_plugin\Plugin\Layout\LayoutPluginManagerInterface;
+use Drupal\panels\Plugin\DisplayBuilder\DisplayBuilderInterface;
 use Drupal\panels\Plugin\DisplayBuilder\DisplayBuilderManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -75,20 +80,20 @@ class PanelsDisplayVariant extends BlockDisplayVariant {
    *   The UUID generator.
    * @param \Drupal\Core\Utility\Token $token
    *   The token service.
-   * @param \Drupal\Component\Uuid\UuidInterface $uuid_generator
-   *   The UUID generator.
-   * @param \Drupal\Core\Utility\Token $token
-   *   The token service.
+   * @param \Drupal\Core\Block\BlockManager $block_manager
+   *   The block manager.
+   * @param \Drupal\Core\Condition\ConditionManager $condition_manager
+   *   The condition manager.
    * @param \Drupal\panels\Plugin\DisplayBuilder\DisplayBuilderManagerInterface $builder_manager
    *   The display builder plugin manager.
    * @param \Drupal\layout_plugin\Plugin\Layout\LayoutPluginManagerInterface $layout_manager
    *   The layout plugin manager.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, ContextHandlerInterface $context_handler, AccountInterface $account, UuidInterface $uuid_generator, Token $token, DisplayBuilderManagerInterface $builder_manager, LayoutPluginManagerInterface $layout_manager) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $context_handler, $account, $uuid_generator, $token);
-
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, ContextHandlerInterface $context_handler, AccountInterface $account, UuidInterface $uuid_generator, Token $token, BlockManager $block_manager, ConditionManager $condition_manager, DisplayBuilderManagerInterface $builder_manager, LayoutPluginManagerInterface $layout_manager) {
     $this->builderManager = $builder_manager;
     $this->layoutManager = $layout_manager;
+
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $context_handler, $account, $uuid_generator, $token, $block_manager, $condition_manager);
   }
 
   /**
@@ -103,6 +108,8 @@ class PanelsDisplayVariant extends BlockDisplayVariant {
       $container->get('current_user'),
       $container->get('uuid'),
       $container->get('token'),
+      $container->get('plugin.manager.block'),
+      $container->get('plugin.manager.condition'),
       $container->get('plugin.manager.panels.display_builder'),
       $container->get('plugin.manager.layout_plugin')
     );
@@ -122,6 +129,33 @@ class PanelsDisplayVariant extends BlockDisplayVariant {
   }
 
   /**
+   * Assigns a builder to this display variant.
+   *
+   * @param string|\Drupal\panels\Plugin\DisplayBuilder\DisplayBuilderInterface $builder
+   *   The builder object or plugin id.
+   *
+   * @return $this
+   *
+   * @throws \Exception
+   *   If $build isn't a string or DisplayBuilderInterface object.
+   */
+  public function setBuilder($builder) {
+    if ($builder instanceof DisplayBuilderInterface) {
+      $this->builder = $builder;
+      $this->configuration['builder'] = $builder->getPluginId();
+    }
+    elseif (is_string($builder)) {
+      $this->builder = NULL;
+      $this->configuration['builder'] = $builder;
+    }
+    else {
+      throw new \Exception("Builder must be a string or DisplayBuilderInterface object");
+    }
+
+    return $this;
+  }
+
+  /**
    * Returns instance of the layout plugin used by this page variant.
    *
    * @return \Drupal\layout_plugin\Plugin\Layout\LayoutInterface
@@ -135,6 +169,71 @@ class PanelsDisplayVariant extends BlockDisplayVariant {
   }
 
   /**
+   * Assigns the layout plugin to this variant.
+   *
+   * @param string|\Drupal\layout_plugin\Plugin\Layout\LayoutInterface $layout
+   *   The layout plugin object or plugin id.
+   * @param array $layout_settings
+   *   The layout configuration.
+   *
+   * @return $this
+   *
+   * @throws \Exception
+   *   If $layout isn't a string or LayoutInterface object.
+   */
+  public function setLayout($layout, array $layout_settings = []) {
+    if ($layout instanceof LayoutInterface) {
+      $this->layout = $layout;
+      $this->configuration['layout'] = $layout->getPluginId();
+      $this->configuration['layout_settings'] = $layout_settings;
+    }
+    elseif (is_string($layout)) {
+      $this->layout = NULL;
+      $this->configuration['layout'] = $layout;
+      $this->configuration['layout_settings'] = $layout_settings;
+    }
+    else {
+      throw new \Exception("Layout must be a string or LayoutInterface object");
+    }
+
+    return $this;
+  }
+
+  /**
+   * Configures how this Panel is being stored.
+   *
+   * @param string $type
+   *   The storage type used by the storage service.
+   * @param string $id
+   *   The id within the storage service for this Panels display.
+   *
+   * @return $this
+   */
+  public function setStorage($type, $id) {
+    $this->configuration['storage_type'] = $type;
+    $this->configuration['storage_id'] = $id;
+    return $this;
+  }
+
+  /**
+   * Gets the id of the storage service which can save this.
+   *
+   * @return string|NULL
+   */
+  public function getStorageType() {
+    return $this->configuration['storage_type'] ?: NULL;
+  }
+
+  /**
+   * Gets id within the storage service for this Panels display.
+   *
+   * @return string|NULL
+   */
+  public function getStorageId() {
+    return $this->configuration['storage_id'] ?: NULL;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getRegionNames() {
@@ -145,10 +244,7 @@ class PanelsDisplayVariant extends BlockDisplayVariant {
    * {@inheritdoc}
    */
   public function build() {
-    $regions = $this->getRegionAssignments();
-    $contexts = $this->getContexts();
-    $layout = $this->getLayout();
-    $build = $this->getBuilder()->build($regions, $contexts, $layout);
+    $build = $this->getBuilder()->build($this);
     $build['#title'] = $this->renderPageTitle($this->configuration['page_title']);
     return $build;
   }
@@ -177,6 +273,10 @@ class PanelsDisplayVariant extends BlockDisplayVariant {
       foreach ($plugins as $id => $plugin) {
         $options[$id] = $plugin['label'];
       }
+      // Only allow the IPE if the storage information is set.
+      if (!$this->getStorageType()) {
+        unset($options['ipe']);
+      }
       $form['builder'] = [
         '#title' => $this->t('Builder'),
         '#type' => 'select',
@@ -185,31 +285,28 @@ class PanelsDisplayVariant extends BlockDisplayVariant {
       ];
     }
 
-    if (empty($this->configuration['layout'])) {
+    $form['layout'] = [
+      '#title' => $this->t('Layout'),
+      '#type' => 'select',
+      '#options' => Layout::getLayoutOptions(['group_by_category' => TRUE]),
+      '#default_value' => $this->configuration['layout'] ?: NULL,
+    ];
 
-      $form['layout'] = [
-        '#title' => $this->t('Layout'),
-        '#type' => 'select',
-        '#options' => Layout::getLayoutOptions(['group_by_category' => TRUE]),
-        '#default_value' => NULL
-      ];
-    }
-    else {
-      $form['layout'] = [
-        '#type' => 'value',
-        '#value' => $this->configuration['layout'],
+    if (!empty($this->configuration['layout'])) {
+      $form['layout']['#ajax'] = [
+        'callback' => [$this, 'layoutSettingsAjaxCallback'],
+        'wrapper' => 'layout-settings-wrapper',
+        'effect' => 'fade',
       ];
 
       // If a layout is already selected, show the layout settings.
       $form['layout_settings_wrapper'] = [
         '#type' => 'fieldset',
         '#title' => $this->t('Layout settings'),
+        '#prefix' => '<div id="layout-settings-wrapper">',
+        '#suffix' => '</div>',
       ];
       $form['layout_settings_wrapper']['layout_settings'] = [];
-
-      // Get settings form from layout plugin.
-      $layout = $this->layoutManager->createInstance($this->configuration['layout'], $this->configuration['layout_settings'] ?: []);
-      $form['layout_settings_wrapper']['layout_settings'] = $layout->buildConfigurationForm($form['layout_settings_wrapper']['layout_settings'], $form_state);
 
       // Process callback to configure #parents correctly on settings, since
       // we don't know where in the form hierarchy our settings appear.
@@ -220,9 +317,13 @@ class PanelsDisplayVariant extends BlockDisplayVariant {
   }
 
   /**
-   * Form API #process callback: expands form with hierarchy information.
+   * Render API callback: builds the layout settings elements.
    */
   public function layoutSettingsProcessCallback(array &$element, FormStateInterface $form_state, array &$complete_form) {
+    $parents_base = $element['#parents'];
+    $layout_parent = array_merge($parents_base, ['layout']);
+    $layout_settings_parent = array_merge($parents_base, ['layout_settings']);
+
     $settings_element =& $element['layout_settings_wrapper']['layout_settings'];
 
     // Set the #parents on the layout_settings so they end up as a sibling of
@@ -231,11 +332,29 @@ class PanelsDisplayVariant extends BlockDisplayVariant {
     $settings_element['#parents'] = $layout_settings_parents;
     $settings_element['#tree'] = TRUE;
 
+    // Get the layout name in a way that works regardless of whether we're
+    // getting the value via AJAX or not.
+    $layout_name = NestedArray::getValue($form_state->getUserInput(), $layout_parent) ?: $element['layout']['#default_value'];
+
+    // Place the layout settings on the form if a layout is selected.
+    if ($layout_name) {
+      $layout = Layout::layoutPluginManager()->createInstance($layout_name, $form_state->getValue($layout_settings_parent, $this->configuration['layout_settings'] ?: []));
+      $settings_element = $layout->buildConfigurationForm($settings_element, $form_state);
+    }
+
     // Store the array parents for our element so that we can use it to pull out
     // the layout settings in the validate and submit functions.
     $complete_form['#variant_array_parents'] = $element['#array_parents'];
 
     return $element;
+  }
+
+  /**
+   * Render API callback: gets the layout settings elements.
+   */
+  public function layoutSettingsAjaxCallback(array $form, FormStateInterface $form_state) {
+    $variant_array_parents = $form['#variant_array_parents'];
+    return NestedArray::getValue($form, array_merge($variant_array_parents, ['layout_settings_wrapper']));
   }
 
   /**
@@ -263,7 +382,8 @@ class PanelsDisplayVariant extends BlockDisplayVariant {
 
     // Validate layout settings.
     if ($form_state->hasValue('layout_settings')) {
-      $layout = $this->layoutManager->createInstance($form_state->getValue('layout'), $this->configuration['layout_settings']);
+      $layout_settings = $this->configuration['layout'] == $form_state->getValue('layout') ? $this->configuration['layout_settings'] : [];
+      $layout = $this->layoutManager->createInstance($form_state->getValue('layout'), $layout_settings);
       list ($layout_settings_form, $layout_settings_form_state) = $this->getLayoutSettingsForm($form, $form_state);
       $layout->validateConfigurationForm($layout_settings_form, $layout_settings_form_state);
 
@@ -285,7 +405,8 @@ class PanelsDisplayVariant extends BlockDisplayVariant {
 
     // Submit layout settings.
     if ($form_state->hasValue('layout_settings')) {
-      $layout = $form_state->has('layout_plugin') ? $form_state->get('layout_plugin') : $this->getLayout();
+      $layout_settings = $this->configuration['layout'] == $form_state->getValue('layout') ? $this->configuration['layout_settings'] : [];
+      $layout = $form_state->has('layout_plugin') ? $form_state->get('layout_plugin') : $this->layoutManager->createInstance($form_state->getValue('layout'), $layout_settings);
       list ($layout_settings_form, $layout_settings_form_state) = $this->getLayoutSettingsForm($form, $form_state);
       $layout->submitConfigurationForm($layout_settings_form, $layout_settings_form_state);
       $this->configuration['layout_settings'] = $layout->getConfiguration();
@@ -317,10 +438,39 @@ class PanelsDisplayVariant extends BlockDisplayVariant {
    */
   public function defaultConfiguration() {
     return parent::defaultConfiguration() + [
+      'uuid' => $this->uuidGenerator()->generate(),
       'layout' => '',
       'layout_settings' => [],
       'page_title' => '',
+      'storage_type' => '',
+      'storage_id' => '',
     ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setConfiguration(array $configuration) {
+    if (empty($configuration['uuid'])) {
+      $configuration['uuid'] = $this->uuidGenerator()->generate();
+    }
+
+    // Make sure blocks are mapped to valid regions, and if not, map them to the
+    // first available region. This is a work-around the fact that we're not
+    // totally in control of the block placement UI from page_manager.
+    // @todo Replace after https://www.drupal.org/node/2550879
+    if (!empty($configuration['layout']) && !empty($configuration['blocks'])) {
+      $layout_definition = $this->layoutManager->getDefinition($configuration['layout']);
+      $valid_regions = $layout_definition['regions'];
+      $first_region = array_keys($valid_regions)[0];
+      foreach ($configuration['blocks'] as &$block) {
+        if (!isset($valid_regions[$block['region']])) {
+          $block['region'] = $first_region;
+        }
+      }
+    }
+
+    return parent::setConfiguration($configuration);
   }
 
   /**

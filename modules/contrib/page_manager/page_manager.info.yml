@@ -8,8 +8,8 @@ dependencies:
   - block
   - ctools
 
-# Information added by Drupal.org packaging script on 2015-11-17
-version: '8.x-1.0-alpha19'
+# Information added by Drupal.org packaging script on 2016-01-09
+version: '8.x-1.0-alpha21'
 core: '8.x'
 project: 'page_manager'
-datestamp: 1447783443
+datestamp: 1452379747
