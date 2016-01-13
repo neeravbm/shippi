@@ -88,6 +88,13 @@ class PageBlockDisplayVariant extends BlockDisplayVariant {
           ],
         ];
 
+        // Temporary fix for content blocks.
+        $original_block_build = $block->build();
+        if (isset($original_block_build['#contextual_links'])) {
+          $block_build['#contextual_links'] = $original_block_build['#contextual_links'];
+        }
+
+
         // Merge the cacheability metadata of blocks into the page. This helps
         // to avoid cache redirects if the blocks have more cache contexts than
         // the page, which the page must respect as well.
