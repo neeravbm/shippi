@@ -1,0 +1,52 @@
+{# Unify template for displaying frontpage #}
+
+
+<body>
+
+    <div class="wrapper">
+
+        {% include directory ~ '/partials/header.html.twig' %}
+
+        {#Temporary Placeholder Block for Main Slider on Frontpage#}
+        <div class="slider-inner">
+            <div id="da-slider" class="da-slider">
+                <div class="da-slide da-slide-current">
+                    <h2><i>CLEAN &amp; FRESH</i> <br> <i>FULLY RESPONSIVE</i> <br> <i>DESIGN</i></h2>
+                    <p><i>Lorem ipsum dolor amet</i> <br> <i>tempor incididunt ut</i> <br> <i>veniam omnis </i></p>
+                    {#<div class="da-img"><img class="img-responsive" src="http://unify.local/themes/unify/css/img/1.png" alt=""></div>#}
+                </div>
+                <div class="da-arrows">
+                    <span class="da-arrows-prev"></span>
+                    <span class="da-arrows-next"></span>
+                </div>
+                <nav class="da-dots"><span class="da-dots-current"></span><span></span><span></span></nav></div>
+        </div>
+        {#Main Slider Placeholder Ends#}
+
+        {#Purchase Block in Highlight Region Starts#}
+        {{ page.highlighted }}
+        {#Purchase Block Ends#}
+
+        {#Main Container For the Services,Recent Works and Welcome Block#}
+        <div class="container content-sm">
+            {#Status messages and Help Block#}
+            {{ page.help }}
+
+            {#Services Block in Featured Top Region#}
+
+            <div class="row margin-bottom-30">
+                {{ page.featured_top }}
+            </div>
+
+            {#Recent Products View Block in Featured First Region#}
+            <div class="margin-bottom-30">
+                {{ page.featured_first }}
+            </div>
+
+        </div>
+        {#End the Main Container#}
+    </div>
+
+    {% include directory ~ '/partials/footer.html.twig' %}
+
+</body>

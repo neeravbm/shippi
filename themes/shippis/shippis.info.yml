@@ -1,0 +1,41 @@
+name: Shippi's Custom Unify Sub Theme
+type: theme
+base theme: unify
+description: 'A Custom Theme for Shippis Classes.'
+package: Core
+# version: VERSION
+# core: 8.x
+stylesheets-remove:
+  - '@classy/css/layout.css'
+libraries:
+  - unify/global-styling
+  - shippis/global-styling
+
+regions:
+  header: Header
+  primary_menu: 'Primary menu'
+  secondary_menu: 'Secondary menu'
+  help: Help
+  search: Search
+  page_title: 'Page Title'
+  highlighted: Highlighted
+  featured_top: 'Featured top'
+  breadcrumb: Breadcrumb
+  content: Content
+  container: 'Content Container'
+  sidebar_left: 'Sidebar Left'
+  sidebar_right: 'Sidebar Right'
+  featured_first: 'Featured first'
+  featured_second: 'Featured second'
+  featured_third: 'Featured third'
+  footer_first: 'Footer first'
+  footer_second: 'Footer second'
+  footer_third: 'Footer third'
+  footer_fourth: 'Footer fourth'
+  footer_bottom_first: 'Footer bottom first'
+  footer_bottom_second: 'Footer bottom second'
+
+
+# Information added by Drupal.org packaging script on 2015-08-03
+core: '8.x'
+project: 'drupal'

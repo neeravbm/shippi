@@ -1,0 +1,32 @@
+{#Main Site Header Starts#}
+<header id="header" class="header" role="banner" aria-label="{{ 'Site header'|t}}">
+    <div class="section layout-container clearfix">
+        <div class="container container-fluid">
+            <div class="row">
+                <div class="col-xs-8 col-md-4">
+                    <div class="">
+                        {{ page.header }}
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-8">
+                    <div class="row">
+                        <div class="topbar">
+                            {{ page.secondary_menu }}
+                        </div>
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="fa fa-bars"></span>
+                        </button>
+                    </div>
+                    <div class="row">
+                        <div class="navbar-collapse mega-menu navbar-responsive-collapse collapse">
+                            {{ page.primary_menu }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</header>
+{#Main Site Header Ends#}
