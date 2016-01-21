@@ -2,4 +2,7 @@ global-styling:
   css:
     component:
       css/components/branding.css: {}
+    theme:
+      css/custom.css: {}
+      css/theme-colors/shippis_custom_color.css: {}
 
