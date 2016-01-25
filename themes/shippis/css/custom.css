@@ -6,6 +6,11 @@
     font-size: 18px;
 }
 
+.block-system-main-block{
+    color: #000000;
+    font-size: 18px;
+}
+
 /*Page Sidebar Custom Style*/
 
 .region-sidebar-right{
@@ -15,7 +20,7 @@
 /*Page Title Custom Style*/
 
 .breadcrumbs h1 {
-    color: #990000;
+    color: #cc3300;
     font-size: 28px;
     margin-top: 8px;
 }
