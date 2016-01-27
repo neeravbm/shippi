@@ -14,29 +14,31 @@
  */
 #}
 {% block content %}
-  <div class="container-fluid">
-    <div class="row margin-top-20">
-      {% if site_logo %}
-        {#<div class="col-xs-8 col-md-4"></div>#}
-        <a href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home" class="">
-          <img src="{{ site_logo }}" alt="{{ 'Home'|t }}" />
-        </a>
-      {% endif %}
+  <div class="container">
+    <div class="row margin-top-20 margin-bottom-10">
+      <div class="logo_center">
+        {% if site_logo %}
+          {#<div class="col-xs-8 col-md-4"></div>#}
+          <a href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home" class="">
+            <img src="{{ site_logo }}" alt="{{ 'Home'|t }}" />
+          </a>
+        {% endif %}
 
-      {% if site_name %}
-        <h1><a href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home">{{ site_name }}</a></h1>
-      {% endif %}
+        {% if site_name %}
+          <h1><a href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home">{{ site_name }}</a></h1>
+        {% endif %}
 
-      {% if site_slogan %}
-        <div class="site-slogan">
-          <h4>
-            {#<a href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home">{{ site_slogan }}</a>#}
-            {{ site_slogan }}
-          </h4>
-        </div>
-      {% endif %}
+        {% if site_slogan %}
+          <div class="site-slogan">
+            <h3>
+              {#<a href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home">{{ site_slogan }}</a>#}
+              {{ site_slogan }}
+            </h3>
+          </div>
+        {% endif %}
 
-      {#<div class="col-xs-12 col-md-8"></div>#}
+        {#<div class="col-xs-12 col-md-8"></div>#}
+      </div>
 
     </div>
   </div>

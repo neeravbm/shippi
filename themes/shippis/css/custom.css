@@ -20,7 +20,29 @@
 /*Page Title Custom Style*/
 
 .breadcrumbs h1 {
-    color: #cc3300;
+    color: #006633;
     font-size: 28px;
     margin-top: 8px;
+}
+
+.shippi_color_1 {
+    background-color: #ff0066;
+}
+
+.shippi_color_2 {
+    background-color: #ff99cc;
+}
+
+.easy-block-v1  img{
+    height: auto;
+}
+
+.site-slogan h3{
+    font-size: 19px;
+}
+
+@media screen and (max-width: 990px) {
+    .logo_center {
+        text-align: center;
+    }
 }
