@@ -6,6 +6,7 @@
  */
 
 use Drupal\Component\Utility\Html;
+use Drupal\Component\Utility\Xss;
 use Drupal\Core\Entity\Display\EntityDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\FieldConfigInterface;
@@ -16,6 +17,7 @@ use Drupal\Core\Render\Element;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
 use Drupal\ds\Ds;
+use Drupal\ds\DsAttribute;
 use Drupal\ds\Plugin\DsFieldTemplate\DsFieldTemplateInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\layout_plugin\Layout;
@@ -162,6 +164,7 @@ function ds_entity_view_alter(&$build, EntityInterface $entity, EntityDisplayInt
   $build['#entity_type'] = $entity_type;
   $build['#bundle'] = $bundle;
   $build['#ds_configuration'] = $configuration;
+  $build['#entity'] = $entity;
 
   // Implement UI limit
   $components = $display->getComponents();
@@ -251,11 +254,16 @@ function template_preprocess_ds_entity_view(&$variables) {
   $configuration = $build['#ds_configuration'];
 
   // Process the render array so we can reuse it.
-  $build['#cache']['keys'][0] = 'ds_entity_view';
+  // Don't add/override the cache key if there aren't any.
+  if (!empty($build['#cache']['keys'])) {
+    $build['#cache']['keys'][0] = 'ds_entity_view';
+  }
   unset($build['#pre_render']);
   unset($build['#sorted']);
   unset($build['#children']);
   unset($build['#render_children']);
+  unset($build['#prefix']);
+  unset($build['#suffix']);
 
   // Create region variables based on the layout settings.
   foreach (array_keys($configuration['regions']) as $region_name) {
@@ -400,6 +408,9 @@ function ds_preprocess_ds_layout(&$variables) {
   foreach(Element::children($variables['content']) as $name) {
     $variables[$name] = $variables['content'][$name];
   }
+
+  // Copy entity to top level to improve theme experience
+  $variables[$variables['content']['#entity_type']] = $variables['content']['#entity'];
 }
 
 /**
@@ -617,6 +628,9 @@ function ds_theme_suggestions_field_alter(&$suggestions, $variables) {
       $suggestions[] = $suggestion . '__' . $field_name;
       $suggestions[] = $suggestion . '__' . $variables['element']['#bundle'];
       $suggestions[] = $suggestion . '__' . $field_name . '__' . $variables['element']['#bundle'];
+      $suggestions[] = $suggestion . '__' . $variables['element']['#entity_type'] . '__' . $field_name;
+      $suggestions[] = $suggestion . '__' . $variables['element']['#entity_type'] . '__' . $variables['element']['#bundle'];
+      $suggestions[] = $suggestion . '__' . $variables['element']['#entity_type'] . '__' . $field_name . '__' . $variables['element']['#bundle'];
     }
   }
 }
@@ -826,8 +840,12 @@ function template_preprocess_field__ds_field_expert(&$variables) {
       }
     }
 
-    $variables[$variable_name] = new Attribute($var_attributes);
+    $variables[$variable_name] = new DsAttribute($var_attributes);
   }
+
+  // In order to allow HTML we need to filter XSS the output of the prefix/suffix.
+  $variables['settings']['prefix'] = XSS::filterAdmin($variables['settings']['prefix']);
+  $variables['settings']['suffix'] = XSS::filterAdmin($variables['settings']['suffix']);
 }
 
 /**

@@ -702,7 +702,7 @@ function _ds_field_ui_table_layouts($entity_type, $bundle, $view_mode, &$form, F
   $layout['layout_options'] = $layout_options;
   _ds_field_ui_table_layouts_preview($form, $form_state, $ds_layouts, $layout, $entity_type, $bundle, $view_mode);
 
-  if (!empty($layout) && !empty($layout['settings']) && $layout['layout'] !== 'ds_reset') {
+  if (!empty($layout) && !empty($layout['settings'])) {
     /** @var LayoutInterface $layout_plugin */
     $layout_plugin = Layout::layoutPluginManager()->createInstance($layout['layout'], $layout['settings'] ?: []);
 
@@ -719,6 +719,10 @@ function _ds_field_ui_table_layouts($entity_type, $bundle, $view_mode, &$form, F
         $form[$name]['#ds_layout_configuration'] = TRUE;
         $form[$name]['#parents'] = ['layout_configuration', $name];
         $form[$name]['#tree'] = TRUE;
+
+        if ($layout['layout'] === 'ds_reset') {
+          $form[$name]['#access'] = FALSE;
+        }
       }
     }
 
@@ -1064,7 +1068,7 @@ function _ds_field_ui_fields($entity_type, $bundle, $view_mode, &$form, FormStat
       $plugin_settings = $form_state_plugin_settings[$key];
     }
     elseif (isset($field_settings[$key]['settings']) || isset($field_settings[$key]['ft']) || isset($field_settings[$key]['ds_limit'])) {
-      if ($field_settings[$key]['settings']) {
+      if (isset($field_settings[$key]['settings'])) {
         $plugin_settings = $field_settings[$key]['settings'];
       }
       if (isset($field_settings[$key]['ft'])) {
