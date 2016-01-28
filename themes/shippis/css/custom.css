@@ -41,6 +41,18 @@
     font-size: 19px;
 }
 
+.news-v3 h2  {
+    color: #ff0066;
+}
+
+.news-v3 h2 {
+    font-size: 28px;
+    font-weight: 200;
+    margin: 0 0 20px;
+    line-height: 30px;
+    text-transform: uppercase;
+}
+
 @media screen and (max-width: 990px) {
     .logo_center {
         text-align: center;
