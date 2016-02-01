@@ -7,7 +7,7 @@
 }
 
 .block-system-main-block{
-    color: #000000;
+    color: #595957;
     font-size: 18px;
 }
 
@@ -30,7 +30,7 @@
 }
 
 .shippi_color_2 {
-    background-color: #ff99cc;
+    background-color: #006633;
 }
 
 .easy-block-v1  img{
@@ -42,8 +42,10 @@
 }
 
 .news-v3 h2  {
-    color: #ff0066;
+    color: #006633;
 }
+
+
 
 .news-v3 h2 {
     font-size: 28px;
@@ -53,8 +55,22 @@
     text-transform: uppercase;
 }
 
+.light{
+    background-color: #fffeef;
+}
+
+/*Navbar Menu*/
+.header .navbar-nav > li > a {
+    color: #006633;
+    font-size: 15px;
+    font-weight:400;
+    text-transform: uppercase;
+}
+
 @media screen and (max-width: 990px) {
     .logo_center {
         text-align: center;
     }
 }
+
+

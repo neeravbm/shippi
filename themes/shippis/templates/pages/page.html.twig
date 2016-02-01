@@ -1,0 +1,27 @@
+{# Unify template for displaying a page #}
+
+<body>
+
+    <div class="wrapper">
+
+        {% include directory ~ '/partials/header.html.twig' %}
+
+        {% include directory ~ '/partials/breadcrumbs.html.twig' %}
+
+        <div class="light">
+            <div class="container content">
+                {{ page.help }}
+                {{ title_prefix }}
+                {{ page.content }}
+                {{ title_suffix }}
+
+            </div>
+        </div>
+
+    </div>
+
+
+    {% include directory ~ '/partials/footer.html.twig' %}
+
+
+</body>

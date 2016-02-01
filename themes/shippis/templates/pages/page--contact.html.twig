@@ -6,17 +6,19 @@
 
         {% include directory ~ '/partials/header.html.twig' %}
 
-        <div class="container content">
-            {#Status messages and Help Block#}
-            {{ page.help }}
-            <div class="row margin-bottom-30">
-                <div class="col-md-9 mb-margin-bottom-30">
-                    <div class="headline"><h2>Contact Us</h2></div>
-                    {{ page.featured_top }}
-                    {{ page.content }}
-                </div><!--/col-md-9-->
-                <div class="col-md-3">
-                    {{ page.sidebar_right }}
+        <div class="light">
+            <div class="container content">
+                {#Status messages and Help Block#}
+                {{ page.help }}
+                <div class="row margin-bottom-30">
+                    <div class="col-md-9 mb-margin-bottom-30">
+                        <div class="headline"><h2>Contact Us</h2></div>
+                        {{ page.content }}
+                        {{ page.featured_top }}
+                    </div><!--/col-md-9-->
+                    <div class="col-md-3">
+                        {{ page.sidebar_right }}
+                    </div>
                 </div>
             </div>
         </div>

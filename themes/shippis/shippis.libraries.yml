@@ -3,6 +3,10 @@ global-styling:
     component:
       css/components/branding.css: {}
     theme:
+      css/style.css: {}
+      css/blocks.css: {}
+      css/app.css: {}
+      css/plugins.css: {}
       css/custom.css: {}
       css/theme-colors/shippis_custom_color.css: {}
 

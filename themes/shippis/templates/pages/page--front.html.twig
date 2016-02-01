@@ -8,30 +8,32 @@
         {% include directory ~ '/partials/header.html.twig' %}
 
         {#Main Container For the Services,Recent Works and Welcome Block#}
-        <div class="container content-sm">
+        <div class="light">
+            <div class="container content-sm">
 
-            {#Welcome Block in Content Region#}
-            <div class="row margin-bottom-30">
+                {#Welcome Block in Content Region#}
+                <div class="row margin-bottom-30">
 
-                <div class=".col-md-8 .col-md-offset-2 md-margin-bottom-40 margin-right-10 margin-left-10">
-                    {#{{ page.content }}#}
-                    {{ page.featured_top }}
+                    <div class=".col-md-8 .col-md-offset-2 md-margin-bottom-40 margin-right-10 margin-left-10">
+                        {#{{ page.content }}#}
+                        {{ page.featured_top }}
+                    </div>
+
+                </div>
+
+                {#Status messages and Help Block#}
+                {{ page.help }}
+
+                {#Purchase Block in Highlight Region Starts#}
+                {{ page.highlighted }}
+                {#Purchase Block Ends#}
+
+                {#Recent Products View Block in Featured First Region#}
+                <div class="margin-bottom-30">
+                    {{ page.featured_first }}
                 </div>
 
             </div>
-
-            {#Status messages and Help Block#}
-            {{ page.help }}
-
-            {#Purchase Block in Highlight Region Starts#}
-            {{ page.highlighted }}
-            {#Purchase Block Ends#}
-
-            {#Recent Products View Block in Featured First Region#}
-            <div class="margin-bottom-30">
-                {{ page.featured_first }}
-            </div>
-
         </div>
         {#End the Main Container#}
     </div>
