@@ -67,6 +67,10 @@
     text-transform: uppercase;
 }
 
+.img-align-center{
+    margin: 0 auto;
+}
+
 @media screen and (max-width: 990px) {
     .logo_center {
         text-align: center;

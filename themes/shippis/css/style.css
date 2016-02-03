@@ -350,15 +350,11 @@ a.thumbnail {
 }
 
 .thumbnail-style { 
-	padding: 7px;
-	margin-bottom: 20px; 
+	padding: 0px;
+	margin-bottom: 0px;
 }
-.thumbnail-style:hover { 
-	box-shadow: 0 0 8px #ddd; 
-    -webkit-transition: box-shadow 0.2s ease-in-out;
-    -moz-transition: box-shadow 0.2s ease-in-out;
-    -o-transition: box-shadow 0.2s ease-in-out;
-    transition: box-shadow 0.2s ease-in-out;
+.thumbnail-style:hover {
+	box-shadow: none;
 }
 
 .thumbnail h3,
@@ -380,7 +376,7 @@ a.thumbnail {
 
 .thumbnail-style .thumbnail-img {
 	position: relative;
-	margin-bottom: 11px;
+	margin-bottom: 0px;
 }
 
 .thumbnail-style .thumbnail-img img{

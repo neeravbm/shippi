@@ -1,0 +1,22 @@
+{% if slideshow %}
+  <div class="skin-{{ skin }}">
+    {% if top_widget_rendered %}
+      <div class="views-slideshow-controls-top clearfix">
+        <div class="text-align-center">
+          {{ top_widget_rendered }}
+        </div>
+
+      </div>
+    {% endif %}
+
+    {{ slideshow }}
+
+    {% if bottom_widget_rendered %}
+      <div class="views-slideshow-controls-bottom clearfix">
+        <div class="text-align-center">
+          {{ bottom_widget_rendered }}
+        </div>
+      </div>
+    {% endif %}
+    </div>
+{% endif %}
