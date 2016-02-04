@@ -67,8 +67,16 @@
     text-transform: uppercase;
 }
 
+/*Center Align Image*/
 .img-align-center{
     margin: 0 auto;
+}
+
+/*Latin Name Style*/
+
+.latin_name {
+    color: #006633;
+    font-size: 14px;
 }
 
 @media screen and (max-width: 990px) {
@@ -77,4 +85,16 @@
     }
 }
 
+@media screen and (max-width: 460px) {
+    .thumbnail-style .thumbnail-img img {
+        width: 100%;
+        height: auto !important;
+    }
+}
 
+@media screen and (max-width: 1200px) {
+    .thumbnail-style .thumbnail-img img {
+        width: auto !important;
+        height: auto !important;
+    }
+}
