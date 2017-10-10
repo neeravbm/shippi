@@ -1,20 +1,15 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\ds\Plugin\DsFieldTemplate\DsFieldTemplateBase.
- */
-
 namespace Drupal\ds\Plugin\DsFieldTemplate;
 
-use Drupal\Component\Plugin\PluginBase as ComponentPluginBase;
+use Drupal\Core\Plugin\PluginBase;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\ds\Ds;
 
 /**
  * Base class for all the ds plugins.
  */
-abstract class DsFieldTemplateBase extends ComponentPluginBase implements DsFieldTemplateInterface {
+abstract class DsFieldTemplateBase extends PluginBase implements DsFieldTemplateInterface {
 
   /**
    * The entity used for token replacement.
@@ -53,13 +48,13 @@ abstract class DsFieldTemplateBase extends ComponentPluginBase implements DsFiel
 
     $form['lb'] = array(
       '#type' => 'textfield',
-      '#title' => t('Label'),
+      '#title' => $this->t('Label'),
       '#size' => '10',
-      '#default_value' =>$config['lb'],
+      '#default_value' => $config['lb'],
     );
     $form['lb-col'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Show label colon'),
+      '#title' => $this->t('Show label colon'),
       '#default_value' => $config['lb-col'],
       '#attributes' => array(
         'class' => array('colon-checkbox'),
@@ -72,7 +67,7 @@ abstract class DsFieldTemplateBase extends ComponentPluginBase implements DsFiel
         '#type' => 'select',
         '#multiple' => TRUE,
         '#options' => $field_classes,
-        '#title' => t('Choose additional CSS classes for the field'),
+        '#title' => $this->t('Choose additional CSS classes for the field'),
         '#default_value' => $config['classes'],
         '#prefix' => '<div class="field-classes">',
         '#suffix' => '</div>',

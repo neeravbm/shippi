@@ -5,6 +5,9 @@
  * Display Suite example layout configuration.
  */
 
+/**
+ * Defines a Display Suite layout.
+ */
 function ds_example_layout() {
   return array(
     'label' => t('Example layout'),
@@ -12,9 +15,9 @@ function ds_example_layout() {
       'left' => t('Left'),
       'right' => t('Right'),
     ),
-    // Uncomment if you want to include a CSS file for this layout (example_layout.css)
+    // Uncomment if you want to include a CSS file for this layout (example_layout.css).
     // 'css' => TRUE,
-    // Uncomment if you want to include a preview for this layout (example_layout.png)
+    // Uncomment if you want to include a preview for this layout (example_layout.png).
     // 'image' => TRUE,
   );
 }

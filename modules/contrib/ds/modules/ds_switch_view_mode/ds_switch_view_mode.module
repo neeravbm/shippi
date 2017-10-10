@@ -16,26 +16,30 @@ use Drupal\ds\Ds;
  * Implements hook_entity_base_field_info().
  */
 function ds_switch_view_mode_entity_base_field_info(EntityTypeInterface $entity_type) {
-  // Add the switch field as a base field.
-  $fields = array();
+  if ($entity_type->id() == 'node') {
+    // Add the switch field as a base field.
+    $fields = array();
 
-  $fields['ds_switch'] = BaseFieldDefinition::create('string')
-    ->setLabel(t('DS switch'))
-    ->setName('ds_switch')
-    ->setRevisionable(TRUE)
-    ->setDescription(t('Holds the DS view mode of the node.'))
-    ->setSetting('default_value', '')
-    ->setPropertyConstraints('value', array('Length' => array('max' => 60)));
+    $fields['ds_switch'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('DS switch'))
+      ->setName('ds_switch')
+      ->setRevisionable(TRUE)
+      ->setDescription(t('Holds the DS view mode of the node.'))
+      ->setSetting('default_value', '')
+      ->setPropertyConstraints('value', array('Length' => array('max' => 60)));
 
-  return $fields;
+    return $fields;
+  }
 }
 
 /**
  * Implements hook_entity_view_mode_alter().
  */
 function ds_switch_view_mode_entity_view_mode_alter(&$view_mode, EntityInterface $entity, $context) {
-  if ($entity->getEntityTypeId() == 'node' && node_is_page($entity) && !empty($entity->ds_switch->value)) {
+  if ($entity->getEntityTypeId() == 'node' && node_is_page($entity) && !empty($entity->ds_switch->value) && $view_mode == 'full') {
+    $original_view_mode = $view_mode;
     $view_mode = $entity->ds_switch->value;
+    \Drupal::moduleHandler()->alter('ds_swith_view_mode', $view_mode, $original_view_mode, $entity);
   }
 }
 
@@ -46,7 +50,7 @@ function ds_switch_view_mode_entity_view_mode_alter(&$view_mode, EntityInterface
  */
 function ds_switch_view_mode_form_node_form_alter(&$form, FormStateInterface $form_state) {
   // Switch full view mode.
-  /** @var Drupal\node\NodeInterface $node */
+  /* @var Drupal\node\NodeInterface $node */
   $node = $form_state->getFormObject()->getEntity();
 
   if (\Drupal::currentUser()->hasPermission('ds switch ' . $node->bundle()) || \Drupal::currentUser()->hasPermission('ds switch view mode')) {
@@ -67,7 +71,7 @@ function ds_switch_view_mode_form_node_form_alter(&$form, FormStateInterface $fo
       }
     }
 
-    // Add default layout settings
+    // Add default layout settings.
     $layouts[''] = Ds::getDisplay('node', $node->bundle(), 'default', FALSE);
 
     // Only fire if we have more than 1 option.
@@ -106,6 +110,14 @@ function ds_switch_view_mode_form_node_form_alter(&$form, FormStateInterface $fo
         $mode = $node->get('ds_switch')->value;
       }
       $chosen_layout = $layouts[$mode];
+      if (empty($chosen_layout)) {
+        if (isset($layouts['full'])) {
+          $chosen_layout = $layouts['full'];
+        }
+        else {
+          $chosen_layout = $layouts[''];
+        }
+      }
       $layout_settings = $chosen_layout->getThirdPartySettings('ds');
 
       $ds_layouts = Ds::getLayouts();

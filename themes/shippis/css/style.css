@@ -1660,3 +1660,51 @@ img.img-mouse {
 .img-responsive img{
 	width: 100%;
 }
+
+div.field--name-field-art-image {
+	float: left;
+	margin-right: 20px;
+	width: 50%;
+}
+@media screen and (max-width: 768px){
+	article.node--type-art-to-sell img {
+		width: 100% !important;
+	}
+	.views-field-field-art-image {
+		margin-bottom: 20px;
+	}
+
+}
+
+@media screen and (max-width: 992px) {
+	div.field--name-field-art-image {
+		float: none;
+		margin-right: 0;
+		width: 100%;
+	}
+	 img {
+	   width: 100%;
+	}
+	.heading h2:before, .heading h2:after {
+		width: auto !important;
+	}
+	div#views_slideshow_cycle_teaser_section_gallery_slideshow-gallery {
+		width: 100% !important;
+	}
+}
+.views-field-field-art-image img {
+	width: 100% !important;
+}
+
+@media screen and (max-width: 1200px) {
+	div.field--name-field-art-image img {
+		width: 100%;
+	}
+
+}
+
+@media screen and (max-width: 850px) {
+	div#views_slideshow_cycle_main_gallery_slideshow-gallery img  {
+		width: 430px !important;
+	}
+}

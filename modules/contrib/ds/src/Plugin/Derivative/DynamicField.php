@@ -1,13 +1,9 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\ds\Plugin\Derivative\DynamicField.
- */
-
 namespace Drupal\ds\Plugin\Derivative;
 
 use Drupal\Component\Plugin\Derivative\DeriverBase;
+use Drupal\Component\Utility\Html;
 
 /**
  * Retrieves dynamic field plugin definitions.
@@ -28,7 +24,7 @@ abstract class DynamicField extends DeriverBase {
           $key = $this->getKey($entity_type, $field);
           $this->derivatives[$key] = $base_plugin_definition;
           $this->derivatives[$key] += array(
-            'title' => \Drupal::translation()->translate($field['label']),
+            'title' => \Drupal::translation()->translate(Html::escape($field['label'])),
             'properties' => $field['properties'],
             'entity_type' => $entity_type,
           );
@@ -60,4 +56,5 @@ abstract class DynamicField extends DeriverBase {
   protected function getKey($entity_type, $field) {
     return $entity_type . '-' . $field['id'];
   }
+
 }

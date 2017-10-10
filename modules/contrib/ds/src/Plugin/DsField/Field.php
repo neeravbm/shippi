@@ -1,14 +1,8 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\ds\Plugin\DsField\Field.
- */
-
 namespace Drupal\ds\Plugin\DsField;
 
-use Drupal\Component\Utility\Html;
-use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Template\Attribute;
 
 /**
  * The base plugin to create DS fields.
@@ -21,14 +15,14 @@ abstract class Field extends DsFieldBase {
   public function build() {
     $config = $this->getConfiguration();
 
-    // Initialize output
+    // Initialize output.
     $output = '';
 
     // Basic string.
     $entity_render_key = $this->entityRenderKey();
 
     if (isset($config['link text'])) {
-      $output = t($config['link text']);
+      $output = $this->t($config['link text']);
     }
     elseif (!empty($entity_render_key) && isset($this->entity()->{$entity_render_key})) {
       if ($this->getEntityTypeId() == 'user' && $entity_render_key == 'name') {
@@ -43,30 +37,42 @@ abstract class Field extends DsFieldBase {
       return array();
     }
 
-    // Link.
-    if (!empty($config['link'])) {
-      /** @var $entity EntityInterface */
-      $entity = $this->entity();
-      $url_info = $entity->urlInfo();
-      if (!empty($config['link class'])) {
-        $url_info->setOption('attributes', array('class' => explode(' ', $config['link class'])));
-      }
-      $output = \Drupal::l($output, $url_info);
-    }
-    else {
-      $output = Html::escape($output);
+    $template = <<<TWIG
+{% if wrapper %}
+<{{ wrapper }}{{ attributes }}>
+{% endif %}
+{% if is_link %}
+  {{ link(output, entity_url) }}
+{% else %}
+  {{ output }}
+{% endif %}
+{% if wrapper %}
+</{{ wrapper }}>
+{% endif %}
+TWIG;
+
+    $entity_url = $this->entity()->toUrl();
+    if (!empty($config['link class'])) {
+      $entity_url->setOption('attributes', ['class' => explode(' ', $config['link class'])]);
     }
 
-    // Wrapper and class.
-    if (!empty($config['wrapper'])) {
-      $wrapper = Html::escape($config['wrapper']);
-      $class = (!empty($config['class'])) ? ' class="' . Html::escape($config['class']) . '"' : '';
-      $output = '<' . $wrapper . $class . '>' . $output . '</' . $wrapper . '>';
+    // Build the attributes
+    $attributes = new Attribute();
+    if (!empty($config['class'])) {
+      $attributes->addClass($config['class']);
     }
 
-    return array(
-      '#markup' => $output,
-    );
+    return [
+      '#type' => 'inline_template',
+      '#template' => $template,
+      '#context' => [
+        'is_link' => !empty($config['link']),
+        'wrapper' => !empty($config['wrapper']) ? $config['wrapper'] : '',
+        'attributes' =>  $attributes,
+        'entity_url' => $this->entity()->toUrl(),
+        'output' => $output,
+      ],
+    ];
   }
 
   /**

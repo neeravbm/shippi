@@ -94,7 +94,7 @@
 
 @media screen and (max-width: 1200px) {
     .thumbnail-style .thumbnail-img img {
-        width: auto !important;
+        width: 100% !important;
         height: auto !important;
     }
 }

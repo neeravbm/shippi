@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\ds\Annotation\DsField.
- */
-
 namespace Drupal\ds\Annotation;
 
 use Drupal\Component\Annotation\Plugin;
@@ -26,9 +21,9 @@ class DsField extends Plugin {
   /**
    * The human-readable name of the DS plugin.
    *
-   * @ingroup plugin_translatable
-   *
    * @var \Drupal\Core\Annotation\Translation
+   *
+   * @ingroup plugin_translatable
    */
   public $title;
 
@@ -41,6 +36,7 @@ class DsField extends Plugin {
 
   /**
    * An array of limits for showing this field.
+   *
    * In the format: "bundle|view_mode".
    *
    * @var array
