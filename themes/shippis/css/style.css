@@ -1673,6 +1673,9 @@ div.field--name-field-art-image {
 	.views-field-field-art-image {
 		margin-bottom: 20px;
 	}
+	div.view-art-to-sell .row {
+		padding-bottom: 0 !important;
+	}
 
 }
 
@@ -1707,4 +1710,8 @@ div.field--name-field-art-image {
 	div#views_slideshow_cycle_main_gallery_slideshow-gallery img  {
 		width: 430px !important;
 	}
+}
+
+div.view-art-to-sell .row {
+	padding-bottom: 30px;
 }
