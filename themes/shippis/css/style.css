@@ -1670,9 +1670,9 @@ div.field--name-field-art-image {
 	article.node--type-art-to-sell img {
 		width: 100% !important;
 	}
-	.views-field-field-art-image {
-		margin-bottom: 20px;
-	}
+	/*.views-field-field-art-image {*/
+		/*margin-bottom: 20px;*/
+	/*}*/
 	div.view-art-to-sell .row {
 		padding-bottom: 0 !important;
 	}
@@ -1691,9 +1691,9 @@ div.field--name-field-art-image {
 	.heading h2:before, .heading h2:after {
 		width: auto !important;
 	}
-	div#views_slideshow_cycle_teaser_section_gallery_slideshow-gallery {
-		width: 100% !important;
-	}
+	/*div#views_slideshow_cycle_teaser_section_gallery_slideshow-gallery {*/
+		/*width: 100% !important;*/
+	/*}*/
 }
 .views-field-field-art-image img {
 	width: 100% !important;
@@ -1710,8 +1710,21 @@ div.field--name-field-art-image {
 	div#views_slideshow_cycle_main_gallery_slideshow-gallery img  {
 		width: 430px !important;
 	}
+	div.masonry-layout .masonry-item {
+		float: none;
+		width: 100%;
+		margin: 2% 0;
+	}
 }
 
 div.view-art-to-sell .row {
 	padding-bottom: 30px;
+}
+.masonry-layout .masonry-item {
+	float: left;
+	background-color: transparent;
+	border: 1px solid #9a9696;
+	margin: 0.5%;
+	padding: 0;
+
 }

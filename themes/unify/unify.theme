@@ -132,5 +132,8 @@ function unify_form_alter(&$form, &$form_state, $form_id) {
 
 }
 
-
-
+function unify_preprocess_image(&$vars)
+{
+    $vars['attributes']['class'][] = 'img-responsive';
+    // http://getbootstrap.com/css/#overview-responsive-images
+}
