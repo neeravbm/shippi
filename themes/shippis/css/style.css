@@ -1725,6 +1725,6 @@ div.view-art-to-sell .row {
 	background-color: transparent;
 	border: 1px solid #9a9696;
 	margin: 0.5%;
-	padding: 0;
-
+	padding: 10px 10px 0 10px;
+	border-radius: 5px;
 }
