@@ -4,6 +4,7 @@ namespace Drupal\user;
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Access\AccessResultNeutral;
+use Drupal\Core\Access\AccessResultReasonInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityAccessControlHandler;
 use Drupal\Core\Field\FieldDefinitionInterface;
@@ -58,17 +59,22 @@ class UserAccessControlHandler extends EntityAccessControlHandler {
           return AccessResult::allowed()->cachePerUser();
         }
         else {
-          return AccessResultNeutral::neutral("The 'access user profiles' permission is required and the user must be active.");
+          return AccessResultNeutral::neutral("The 'access user profiles' permission is required and the user must be active.")->cachePerPermissions()->addCacheableDependency($entity);
         }
         break;
 
       case 'update':
         // Users can always edit their own account.
-        return AccessResult::allowedIf($account->id() == $entity->id())->cachePerUser();
+        $access_result = AccessResult::allowedIf($account->id() == $entity->id())->cachePerUser();
+        if (!$access_result->isAllowed() && $access_result instanceof AccessResultReasonInterface) {
+          $access_result->setReason("Users can only update their own account, unless they have the 'administer users' permission.");
+        }
+        return $access_result;
 
       case 'delete':
         // Users with 'cancel account' permission can cancel their own account.
-        return AccessResult::allowedIf($account->id() == $entity->id() && $account->hasPermission('cancel account'))->cachePerPermissions()->cachePerUser();
+        return AccessResult::allowedIfHasPermission($account, 'cancel account')
+          ->andIf(AccessResult::allowedIf($account->id() == $entity->id())->cachePerUser());
     }
 
     // No opinion.

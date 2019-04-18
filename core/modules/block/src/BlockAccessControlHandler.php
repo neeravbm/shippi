@@ -61,7 +61,7 @@ class BlockAccessControlHandler extends EntityAccessControlHandler implements En
    * @param \Drupal\Core\Plugin\Context\ContextRepositoryInterface $context_repository
    *   The lazy context repository service.
    */
-  public function __construct(EntityTypeInterface $entity_type, ContextHandlerInterface $context_handler, ContextRepositoryInterface $context_repository ) {
+  public function __construct(EntityTypeInterface $entity_type, ContextHandlerInterface $context_handler, ContextRepositoryInterface $context_repository) {
     parent::__construct($entity_type);
     $this->contextHandler = $context_handler;
     $this->contextRepository = $context_repository;
@@ -128,7 +128,10 @@ class BlockAccessControlHandler extends EntityAccessControlHandler implements En
         }
       }
       else {
-        $access = AccessResult::forbidden();
+        $reason = count($conditions) > 1
+          ? "One of the block visibility conditions ('%s') denied access."
+          : "The block visibility condition '%s' denied access.";
+        $access = AccessResult::forbidden(sprintf($reason, implode("', '", array_keys($conditions))));
       }
 
       $this->mergeCacheabilityFromConditions($access, $conditions);

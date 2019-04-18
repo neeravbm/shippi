@@ -120,8 +120,9 @@ class SessionManager extends NativeSessionStorage implements SessionManagerInter
 
     if (empty($result)) {
       // Randomly generate a session identifier for this request. This is
-      // necessary because \Drupal\user\SharedTempStoreFactory::get() wants to
-      // know the future session ID of a lazily started session in advance.
+      // necessary because \Drupal\Core\TempStore\SharedTempStoreFactory::get()
+      // wants to know the future session ID of a lazily started session in
+      // advance.
       //
       // @todo: With current versions of PHP there is little reason to generate
       //   the session id from within application code. Consider using the
@@ -215,7 +216,7 @@ class SessionManager extends NativeSessionStorage implements SessionManagerInter
       throw new \InvalidArgumentException('The optional parameters $destroy and $lifetime of SessionManager::regenerate() are not supported currently');
     }
 
-    if ($this->isStarted()) {
+    if ($this->started) {
       $old_session_id = $this->getId();
     }
     session_id(Crypt::randomBytesBase64());
@@ -229,7 +230,7 @@ class SessionManager extends NativeSessionStorage implements SessionManagerInter
       $this->migrateStoredSession($old_session_id);
     }
 
-    if (!$this->isStarted()) {
+    if (!$this->started) {
       // Start the session when it doesn't exist yet.
       $this->startNow();
     }
@@ -335,6 +336,21 @@ class SessionManager extends NativeSessionStorage implements SessionManagerInter
       ->fields($fields)
       ->condition('sid', Crypt::hashBase64($old_session_id))
       ->execute();
+  }
+
+  /**
+   * Checks if the session is started.
+   *
+   * Beginning with symfony/http-foundation 3.4.24, the session will no longer
+   * save unless this method returns true. The parent method returns true if
+   * $this->started is true, but we need the session to also save if we lazy
+   * started, so we override isStarted() here.
+   *
+   * @return bool
+   *   True if started, false otherwise
+   */
+  public function isStarted() {
+    return parent::isStarted() || $this->startedLazy;
   }
 
 }

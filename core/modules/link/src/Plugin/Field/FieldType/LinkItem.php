@@ -135,7 +135,7 @@ class LinkItem extends FieldItemBase implements LinkItemInterface {
           $values['title'] = mt_rand(0, 1) ? $random->sentences(4) : '';
           break;
       }
-      $values['uri'] = 'http://www.' . $random->word($domain_length) . '.' . $tlds[mt_rand(0, (sizeof($tlds) - 1))];
+      $values['uri'] = 'http://www.' . $random->word($domain_length) . '.' . $tlds[mt_rand(0, (count($tlds) - 1))];
     }
     else {
       $values['uri'] = 'base:' . $random->name(mt_rand(1, 64));
@@ -191,7 +191,12 @@ class LinkItem extends FieldItemBase implements LinkItemInterface {
     //   SqlContentEntityStorage::loadFieldItems, see
     //   https://www.drupal.org/node/2414835
     if (is_string($values['options'])) {
-      $values['options'] = unserialize($values['options']);
+      if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
+        $values['options'] = unserialize($values['options'], ['allowed_classes' => FALSE]);
+      }
+      else {
+        $values['options'] = unserialize($values['options']);
+      }
     }
     parent::setValue($values, $notify);
   }

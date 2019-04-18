@@ -2,8 +2,11 @@
 
 namespace Drupal\contextual;
 
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Drupal\Component\Utility\Crypt;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\Site\Settings;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -11,9 +14,32 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 /**
  * Returns responses for Contextual module routes.
  */
-class ContextualController implements ContainerAwareInterface {
+class ContextualController implements ContainerInjectionInterface {
 
-  use ContainerAwareTrait;
+  /**
+   * The renderer.
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $render;
+
+  /**
+   * Constructors a new ContextualController
+   *
+   * @param \Drupal\Core\Render\RendererInterface $renderer
+   *   The renderer.
+   */
+  public function __construct(RendererInterface $renderer) {
+    $this->renderer = $renderer;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('renderer')
+    );
+  }
 
   /**
    * Returns the requested rendered contextual links.
@@ -32,13 +58,21 @@ class ContextualController implements ContainerAwareInterface {
       throw new BadRequestHttpException(t('No contextual ids specified.'));
     }
 
+    $tokens = $request->request->get('tokens');
+    if (!isset($tokens)) {
+      throw new BadRequestHttpException(t('No contextual ID tokens specified.'));
+    }
+
     $rendered = [];
-    foreach ($ids as $id) {
+    foreach ($ids as $key => $id) {
+      if (!isset($tokens[$key]) || !Crypt::hashEquals($tokens[$key], Crypt::hmacBase64($id, Settings::getHashSalt() . \Drupal::service('private_key')->get()))) {
+        throw new BadRequestHttpException('Invalid contextual ID specified.');
+      }
       $element = [
         '#type' => 'contextual_links',
         '#contextual_links' => _contextual_id_to_links($id),
       ];
-      $rendered[$id] = $this->container->get('renderer')->renderRoot($element);
+      $rendered[$id] = $this->renderer->renderRoot($element);
     }
 
     return new JsonResponse($rendered);
