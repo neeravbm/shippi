@@ -216,8 +216,15 @@ class SessionManager extends NativeSessionStorage implements SessionManagerInter
       throw new \InvalidArgumentException('The optional parameters $destroy and $lifetime of SessionManager::regenerate() are not supported currently');
     }
 
+    // Only migrate the session if the session is really started and not only
+    // lazy started.
     if ($this->started) {
       $old_session_id = $this->getId();
+      // Save and close the old session. Call the parent method to avoid issue
+      // with session destruction due to the session being considered obsolete.
+      parent::save();
+      // Ensure the session is reloaded correctly.
+      $this->startedLazy = TRUE;
     }
     session_id(Crypt::randomBytesBase64());
 
@@ -230,10 +237,7 @@ class SessionManager extends NativeSessionStorage implements SessionManagerInter
       $this->migrateStoredSession($old_session_id);
     }
 
-    if (!$this->started) {
-      // Start the session when it doesn't exist yet.
-      $this->startNow();
-    }
+    $this->startNow();
   }
 
   /**

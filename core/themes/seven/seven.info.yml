@@ -42,6 +42,11 @@ libraries-override:
         assets/vendor/jquery.ui/themes/base/dialog.css: false
   classy/dialog:
     seven/seven.drupal.dialog
+  classy/base:
+    css:
+      component:
+        css/components/details.css: false
+
 libraries-extend:
   core/ckeditor:
     - seven/ckeditor-dialog
@@ -67,7 +72,7 @@ regions_hidden:
   - sidebar_first
 
 # Information added by Drupal.org packaging script on 2019-04-17
-version: '8.5.15'
+version: '8.6.15'
 core: '8.x'
 project: 'drupal'
-datestamp: 1555533524
+datestamp: 1555533461

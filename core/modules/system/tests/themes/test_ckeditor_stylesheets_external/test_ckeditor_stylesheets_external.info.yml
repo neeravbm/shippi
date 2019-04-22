@@ -9,7 +9,7 @@ ckeditor_stylesheets:
   - https://fonts.googleapis.com/css?family=Open+Sans
 
 # Information added by Drupal.org packaging script on 2019-04-17
-version: '8.5.15'
+version: '8.6.15'
 core: '8.x'
 project: 'drupal'
-datestamp: 1555533524
+datestamp: 1555533461

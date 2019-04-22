@@ -35,26 +35,34 @@ class BlockFieldForm extends FieldFormBase implements ContainerInjectionInterfac
 
     $manager = \Drupal::service('plugin.manager.block');
 
-    $blocks = array();
+    $blocks = [];
     foreach ($manager->getDefinitions() as $plugin_id => $plugin_definition) {
       $blocks[$plugin_id] = $plugin_definition['admin_label'];
     }
     asort($blocks);
 
-    $form['block_identity']['block'] = array(
+    $form['block_identity']['block'] = [
       '#type' => 'select',
       '#options' => $blocks,
       '#title' => $this->t('Block'),
       '#required' => TRUE,
       '#default_value' => isset($field['properties']['block']) ? $field['properties']['block'] : '',
-    );
+    ];
 
-    $form['use_block_title'] = array(
+    $form['use_block_title'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Use block title as the field label'),
       '#default_value' => isset($field['properties']['use_block_title']) ? $field['properties']['use_block_title'] : FALSE,
       '#weight' => 90,
-    );
+    ];
+
+    $form['add_block_wrappers'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Add block wrappers and classes'),
+      '#default_value' => isset($field['properties']['add_block_wrappers']) ? $field['properties']['add_block_wrappers'] : FALSE,
+      '#description' => $this->t('Render using the block theme hook to add the block wrappers and clases.'),
+      '#weight' => 91,
+    ];
 
     return $form;
   }
@@ -72,8 +80,9 @@ class BlockFieldForm extends FieldFormBase implements ContainerInjectionInterfac
       $properties = $field['properties'];
     }
 
-    // Save title checkbox.
+    // Save configuration.
     $properties['use_block_title'] = $form_state->getValue('use_block_title');
+    $properties['add_block_wrappers'] = $form_state->getValue('add_block_wrappers');
 
     return $properties;
   }
@@ -106,11 +115,11 @@ class BlockFieldForm extends FieldFormBase implements ContainerInjectionInterfac
     $block = $manager->createInstance($block_id);
     $block_config_form = $block->blockForm([], new FormState());
     if ($block_config_form) {
-      $url = new Url('ds.manage_block_field_config', array('field_key' => $this->field['id']));
+      $url = new Url('ds.manage_block_field_config', ['field_key' => $this->field['id']]);
       $form_state->setRedirectUrl($url);
     }
 
-    // Invalidate all blocks
+    // Invalidate all blocks.
     Cache::invalidateTags(['config:ds.block_base']);
   }
 

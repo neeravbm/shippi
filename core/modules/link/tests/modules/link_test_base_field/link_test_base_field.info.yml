@@ -4,11 +4,11 @@ type: module
 # core: 8.x
 hidden: true
 dependencies:
-  - link
-  - entity_test
+  - drupal:link
+  - drupal:entity_test
 
 # Information added by Drupal.org packaging script on 2019-04-17
-version: '8.5.15'
+version: '8.6.15'
 core: '8.x'
 project: 'drupal'
-datestamp: 1555533524
+datestamp: 1555533461
