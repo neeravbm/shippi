@@ -1,19 +1,24 @@
 <?php
 
-namespace Drupal\pathauto\Tests;
+namespace Drupal\Tests\pathauto\Functional;
 
 use Drupal\pathauto\PathautoGeneratorInterface;
 use Drupal\pathauto\PathautoState;
-use Drupal\simpletest\WebTestBase;
+use Drupal\Tests\BrowserTestBase;
 
 /**
  * Bulk update functionality tests.
  *
  * @group pathauto
  */
-class PathautoBulkUpdateTest extends WebTestBase {
+class PathautoBulkUpdateTest extends BrowserTestBase {
 
   use PathautoTestHelperTrait;
+
+ /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stable';
 
   /**
    * Modules to enable.
@@ -46,7 +51,7 @@ class PathautoBulkUpdateTest extends WebTestBase {
   /**
    * {@inheritdoc}
    */
-  function setUp() {
+  protected function setUp() {
     parent::setUp();
 
     // Allow other modules to add additional permissions for the admin user.
@@ -65,7 +70,7 @@ class PathautoBulkUpdateTest extends WebTestBase {
     $this->patterns['forum'] = $this->createPattern('forum', '/forums/[term:name]');
   }
 
-  function testBulkUpdate() {
+  public function testBulkUpdate() {
     // Create some nodes.
     $this->nodes = [];
     for ($i = 1; $i <= 5; $i++) {
@@ -93,7 +98,7 @@ class PathautoBulkUpdateTest extends WebTestBase {
     }
     $this->assertEntityAliasExists($this->adminUser);
     // This is the default "General discussion" forum.
-    $this->assertAliasExists(['source' => '/taxonomy/term/1']);
+    $this->assertAliasExists(['path' => '/taxonomy/term/1']);
 
     // Add a new node.
     $new_node = $this->drupalCreateNode(['path' => ['alias' => '', 'pathauto' => PathautoState::SKIP]]);
@@ -134,7 +139,7 @@ class PathautoBulkUpdateTest extends WebTestBase {
   /**
    * Tests alias generation for nodes that existed before installing Pathauto.
    */
-  function testBulkUpdateExistingContent() {
+  public function testBulkUpdateExistingContent() {
     // Create a node.
     $node = $this->drupalCreateNode();
 

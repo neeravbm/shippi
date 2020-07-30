@@ -1,18 +1,23 @@
 <?php
 
-namespace Drupal\pathauto\Tests;
+namespace Drupal\Tests\pathauto\Functional;
 
 use Drupal\pathauto\PathautoGeneratorInterface;
-use Drupal\simpletest\WebTestBase;
+use Drupal\Tests\BrowserTestBase;
 
 /**
  * Tests pathauto settings form.
  *
  * @group pathauto
  */
-class PathautoSettingsFormWebTest extends WebTestBase {
+class PathautoSettingsFormWebTest extends BrowserTestBase {
 
   use PathautoTestHelperTrait;
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stable';
 
   /**
    * Modules to enable.
@@ -87,7 +92,7 @@ class PathautoSettingsFormWebTest extends WebTestBase {
   /**
    * {@inheritdoc}
    */
-  function setUp() {
+  protected function setUp() {
     parent::setUp();
 
     $this->drupalCreateContentType(['type' => 'article']);
@@ -107,7 +112,7 @@ class PathautoSettingsFormWebTest extends WebTestBase {
   /**
    * Test if the default values are shown correctly in the form.
    */
-  function testDefaultFormValues() {
+  public function testDefaultFormValues() {
     $this->drupalGet('/admin/config/search/path/settings');
     $this->assertNoFieldChecked('edit-verbose');
     $this->assertField('edit-separator', $this->defaultFormValues['separator']);
@@ -123,7 +128,7 @@ class PathautoSettingsFormWebTest extends WebTestBase {
   /**
    * Test the verbose option.
    */
-  function testVerboseOption() {
+  public function testVerboseOption() {
     $edit = ['verbose' => '1'];
     $this->drupalPostForm('/admin/config/search/path/settings', $edit, t('Save configuration'));
     $this->assertText(t('The configuration options have been saved.'));
@@ -144,7 +149,7 @@ class PathautoSettingsFormWebTest extends WebTestBase {
   /**
    * Tests generating aliases with different settings.
    */
-  function testSettingsForm() {
+  public function testSettingsForm() {
     // Ensure the separator settings apply correctly.
     $this->checkAlias('My awesome content', '/content/my.awesome.content', ['separator' => '.']);
 
@@ -170,7 +175,7 @@ class PathautoSettingsFormWebTest extends WebTestBase {
   /**
    * Test the punctuation setting form items.
    */
-  function testPunctuationSettings() {
+  public function testPunctuationSettings() {
     // Test the replacement of punctuations.
     $settings = [];
     foreach ($this->defaultPunctuations as $key => $punctuation) {

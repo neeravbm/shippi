@@ -1,16 +1,22 @@
 <?php
 
-namespace Drupal\pathauto\Tests;
-use Drupal\simpletest\WebTestBase;
+namespace Drupal\Tests\pathauto\Functional;
+
+use Drupal\Tests\BrowserTestBase;
 
 /**
  * Tests pathauto taxonomy UI integration.
  *
  * @group pathauto
  */
-class PathautoTaxonomyWebTest extends WebTestBase {
+class PathautoTaxonomyWebTest extends BrowserTestBase {
 
   use PathautoTestHelperTrait;
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stable';
 
   /**
    * Modules to enable.
@@ -29,7 +35,7 @@ class PathautoTaxonomyWebTest extends WebTestBase {
   /**
    * {@inheritdoc}
    */
-  function setUp() {
+  protected function setUp() {
     parent::setUp();
 
     // Allow other modules to add additional permissions for the admin user.
@@ -48,19 +54,19 @@ class PathautoTaxonomyWebTest extends WebTestBase {
   /**
    * Basic functional testing of Pathauto with taxonomy terms.
    */
-  function testTermEditing() {
+  public function testTermEditing() {
     $this->drupalGet('admin/structure');
     $this->drupalGet('admin/structure/taxonomy');
 
     // Add vocabulary "tags".
-    $vocabulary = $this->addVocabulary(['name' => 'tags', 'vid' => 'tags']);
+    $this->addVocabulary(['name' => 'tags', 'vid' => 'tags']);
 
     // Create term for testing.
     $name = 'Testing: term name [';
     $automatic_alias = '/tags/testing-term-name';
     $this->drupalPostForm('admin/structure/taxonomy/manage/tags/add', ['name[0][value]' => $name], 'Save');
     $name = trim($name);
-    $this->assertText("Created new term $name.");
+    $this->assertSession()->pageTextContains("Created new term $name.");
     $term = $this->drupalGetTermByName($name);
 
     // Look for alias generated in the form.
