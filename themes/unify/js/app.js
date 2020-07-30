@@ -128,7 +128,7 @@ var App = function () {
         jQuery(window).resize(function() {
             EqualHeightColumns();
         });
-        jQuery(window).load(function() {
+        jQuery(window).on('load',function() {
             EqualHeightColumns("img.equal-height-column");
         });
     }
@@ -190,7 +190,7 @@ var App = function () {
 
         //Parallax Backgrounds
         initParallaxBg: function () {
-            jQuery(window).load(function() {
+            jQuery(window).on('load',function() {
                 jQuery('.parallaxBg').parallax("50%", 0.2);
                 jQuery('.parallaxBg1').parallax("50%", 0.4);
             });
@@ -261,7 +261,7 @@ counter();
 
 //Parallax Backgrounds
 function parralaxBg() {
-    jQuery(window).load(function() {
+    jQuery(window).on('load',function() {
         jQuery('.parallaxBg').parallax("50%", 0.2);
         jQuery('.parallaxBg1').parallax("50%", 0.4);
     });
