@@ -820,6 +820,18 @@ ul.blog-tags a:hover i {
 #views_slideshow_cycle_main_slideshow_v1-block_1 .views_slideshow_cycle_hidden img {
         display: unset;
 }
+#views_slideshow_cycle_main_gallery_slideshow-gallery .views_slideshow_cycle_hidden {
+	width: 500px !important;
+}
+
+#views_slideshow_cycle_main_gallery_slideshow-gallery .views_slideshow_cycle_hidden .thumbnail-style .thumbnail-img {
+	text-align: center;
+}
+
+#views_slideshow_cycle_main_gallery_slideshow-gallery .views_slideshow_cycle_hidden .thumbnail-style .thumbnail-img img {
+	width: auto !important;
+	display: unset;
+}
 
 /*Promo Box*/
 .promo-box {
