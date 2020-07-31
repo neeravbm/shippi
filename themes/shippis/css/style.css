@@ -1705,6 +1705,7 @@ div.field--name-field-art-image {
 	}
         .view-gallery-slideshow .views_slideshow_cycle_slide {
                 position: absolute !important;
+		right: 0;
         }
 }
 @media screen and (max-width: 500px){
@@ -1716,6 +1717,9 @@ div.field--name-field-art-image {
 	}
 	#views_slideshow_cycle_main_slideshow_v1-block_1 .views_slideshow_cycle_slide {
 		width: auto !important;
+	}
+	#views_slideshow_cycle_main_gallery_slideshow-gallery .views_slideshow_cycle_slide .thumbnail-style .thumbnail-img img {
+		max-height: 400px;
 	}
 }
 @media screen and (max-width: 992px) {
